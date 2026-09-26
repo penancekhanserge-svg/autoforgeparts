@@ -56,7 +56,7 @@ function Storefront() {
     <>
       <ScrollReveal />
       <WelcomeOffer />
-      <a className="whatsapp-contact" href="https://wa.me/237678156882" target="_blank" rel="noopener noreferrer" aria-label="Need help? Contact us directly on WhatsApp (opens in a new tab)"><span className="whatsapp-orb"><FaWhatsapp aria-hidden="true" /></span><span className="whatsapp-caption"><strong>Need help?</strong><span>Contact us directly</span></span></a>
+      <a className="whatsapp-contact" href={'https://wa.me/237678156882?text=' + encodeURIComponent("Hello AutoForge! I need help finding the right parts for my vehicle. Could you please assist me?")} target="_blank" rel="noopener noreferrer" aria-label="Need help? Contact us directly on WhatsApp (opens in a new tab)"><span className="whatsapp-orb"><FaWhatsapp aria-hidden="true" /></span><span className="whatsapp-caption"><strong>Need help?</strong><span>Contact us directly</span></span></a>
       <Navbar
         categories={categories}
         onCategory={browseCategory}
