@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowRight, FiArrowUpRight, FiCheck, FiHeadphones, FiMinus, FiPlus, FiSearch, FiShield, FiShoppingBag, FiTool, FiTrash2, FiTruck, FiX, FiZap } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiCheck, FiHeadphones, FiMinus, FiPlus, FiSearch, FiShield, FiShoppingBag, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FaShoppingCart } from 'react-icons/fa'
@@ -59,7 +59,6 @@ function Storefront() {
 
   return (
     <>
-      <div className="announcement"><div className="container announcement-inner"><span><FiZap /> BUILT FOR THE ROAD. READY FOR YOUR NEXT JOURNEY.</span><span className="announcement-right">The right part makes all the difference <FiArrowUpRight /></span></div></div>
       <Navbar
         categories={categories}
         onCategory={browseCategory}

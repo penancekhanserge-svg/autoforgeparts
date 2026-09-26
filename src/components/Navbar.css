@@ -1,4 +1,4 @@
-.premium-nav { position: sticky; top: 0; z-index: 30; background: linear-gradient(110deg, rgb(255 255 255 / 86%), rgb(255 249 243 / 76%)); backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%); box-shadow: 0 6px 24px #17201b08; color: #242a2a; }
+.premium-nav { position: sticky; top: 0; z-index: 30; background: linear-gradient(110deg, #ffffff, #fff9f3); box-shadow: 0 6px 24px #17201b08; color: #242a2a; }
 html { scroll-padding-top: 172px; }
 .premium-main { display: flex; align-items: center; gap: 38px; min-height: 104px; }
 .premium-brand { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
@@ -144,7 +144,7 @@ html { scroll-padding-top: 172px; }
   .premium-actions { gap: 4px; }
 }
 @media (max-height: 500px) {
-  .premium-nav { position: relative; backdrop-filter: none; }
+
   .premium-mega { position: fixed; top: 12px; left: 16px; width: calc(100% - 32px); max-height: calc(100dvh - 24px); border-radius: 10px; }
   .premium-links.is-open { position: fixed; top: 12px; left: 16px; width: calc(100% - 32px); max-height: calc(100dvh - 24px); border-radius: 10px; }
 }
@@ -190,7 +190,7 @@ html { scroll-padding-top: 172px; }
 @media (max-height: 500px) { .premium-mega { left: 16px; } }
 
 /* Glass finish, sculpted controls, and warm metallic accents. */
-.premium-nav { border-top: 2px solid #d77a4c; box-shadow: 0 8px 32px #17201b0d, inset 0 1px 0 #ffffffb3; }
+.premium-nav { border-top: 0; box-shadow: 0 8px 32px #17201b0d, inset 0 1px 0 #ffffffb3; }
 .premium-emblem { background: linear-gradient(145deg, #36483f, #17251f); border-radius: 14px 5px 14px 5px; box-shadow: 0 5px 12px #1d302324, inset 0 1px 0 #ffffff38; color: #ffb184; }
 .premium-wordmark > span { color: #c36538; }
 .premium-action-icon { width: 42px; height: 42px; border: 1px solid #d7dfd2; border-radius: 50%; background: #ffffff80; font-size: 20px; }
@@ -240,3 +240,14 @@ html { scroll-padding-top: 172px; }
  .premium-emblem { border-radius: 10px 4px 10px 4px; }
 }
 @media (prefers-reduced-motion: reduce) { .premium-nav * { transition: none !important; } }
+
+/* Keep the announcement and both navigation rows in one sticky header. */
+.premium-nav > .announcement { border-bottom: 2px solid #d77a4c; }
+
+/* Solid header surfaces; the mobile menu remains available without the vehicle row. */
+.premium-nav-border { background: #faf9f6; }
+@media (max-width: 600px) {
+ .premium-vehicle { display: none; }
+ .premium-nav-row { min-height: 0; }
+ .premium-nav-border { border: 0; }
+}

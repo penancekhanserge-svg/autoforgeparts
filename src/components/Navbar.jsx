@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiHeadphones, FiMenu, FiTool, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiHeadphones, FiMenu, FiTool, FiX, FiZap } from 'react-icons/fi'
 import { Link, useLocation } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import PartArt from './PartArt'
@@ -64,6 +64,7 @@ export default function Navbar({ categories, onCategory, onBrowse, onSupport, on
     <header className="premium-nav" ref={header} onBlur={(event) => {
       if (!event.currentTarget.contains(event.relatedTarget)) closeMenus()
     }}>
+      <div className="announcement"><div className="container announcement-inner"><span><FiZap /> BUILT FOR THE ROAD. READY FOR YOUR NEXT JOURNEY.</span><span className="announcement-right">The right part makes all the difference <FiArrowUpRight /></span></div></div>
       <div className="container premium-main">
         <Link className="premium-brand" to="/" aria-label="AutoForge Parts home" onClick={closeMenus}>
           <span className="premium-emblem" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M8 30 20 8h6L14 30H8Zm13-11h6l6 11H21l3-5h-6l3-6Z" fill="currentColor"/></svg></span>
