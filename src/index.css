@@ -483,3 +483,74 @@ body:has(dialog[open]) { overflow: hidden; }
  .home-page .showcase { padding-block: 34px 20px; }
  .home-page .parts-showcase-card { height: 230px; }
 }
+
+/* Finite entrance motion keeps the hero calm after its initial reveal. */
+@keyframes hero-reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-arrive { from { transform: scale(1.055); } to { transform: scale(1); } }
+.home-page .hero-image { animation: hero-arrive 4.5s ease-out both; }
+.home-page .hero-content > * { animation: hero-reveal .85s cubic-bezier(.2,.65,.3,1) both; }
+.home-page .hero-content > :nth-child(2) { animation-delay: .12s; }
+.home-page .hero-content > :nth-child(3) { animation-delay: .24s; }
+.home-page .hero-content > :nth-child(4) { animation-delay: .36s; }
+.home-page .hero-content > :nth-child(5), .hero-detail { animation: hero-reveal .85s .48s both; }
+.testimonials { padding-block: 78px; background: #fcfbf8; }
+.testimonials-heading { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 34px; }
+.testimonials-heading h2 { font-size: clamp(34px, 4vw, 52px); line-height: 1.08; letter-spacing: -2px; color: #253c2d; margin-top: 14px; font-weight: 650; }
+.testimonials-heading h2 em { font-style: normal; color: #ac683f; }
+.testimonials-note > span { font-size: 14px; font-weight: 650; color: #354634; }
+.testimonials-note p { font-size: 12px; line-height: 1.7; color: #73796c; margin-top: 10px; }
+.testimonial-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; }
+.testimonial-card { grid-column: span 2; padding: 27px; border: 1px solid #e3e4d8; border-radius: 16px; background: #fffefb; box-shadow: 0 7px 22px #293c2005; display: flex; flex-direction: column; }
+.testimonial-card:nth-child(n+4) { grid-column: span 3; }
+.review-stars { display: flex; gap: 4px; color: #bd7b36; font-size: 13px; }
+.testimonial-card h3 { font-size: 18px; letter-spacing: -.4px; color: #293e30; margin: 22px 0 12px; }
+.testimonial-card blockquote { font-size: 14px; line-height: 1.85; color: #65705e; margin: 0 0 26px; }
+.review-person { display: flex; gap: 12px; align-items: center; padding-top: 20px; border-top: 1px solid #ecece2; margin-top: auto; }
+.review-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #eae8db; color: #526444; font-family: Georgia, serif; font-size: 21px; flex-shrink: 0; }
+.review-person strong { display: block; font-size: 12px; color: #30452f; }
+.review-person small { display: block; font-size: 10px; color: #757c6e; margin-top: 4px; }
+.review-number { margin-left: auto; color: #a7ad9e; font-size: 10px; }
+.forge-footer { background: radial-gradient(ellipse at 95% 0%, #304a37, transparent 60%), #14271f; color: #e4eadf; padding-top: 60px; }
+.forge-footer-invitation { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding-bottom: 45px; border-bottom: 1px solid #e2e9d921; }
+.forge-footer .eyebrow { color: #dbab80; font-size: 9px; }
+.forge-footer h2 { font-size: clamp(30px, 3.7vw, 49px); line-height: 1.12; letter-spacing: -1.6px; margin-top: 17px; font-weight: 550; }
+.forge-footer h2 em { color: #e9ad7d; font-style: normal; }
+.forge-footer-invitation .button { background: #edb285; color: #243427; border-radius: 8px; min-height: 54px; flex-shrink: 0; }
+.forge-footer-invitation .button:hover { background: #ffd0a5; }
+.forge-footer-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr 1.1fr; gap: 38px; padding-block: 45px; }
+.forge-footer-brand > a { font-size: 28px; font-weight: 850; letter-spacing: -1.3px; }
+.forge-footer-brand > a > span { color: #edb285; }
+.forge-footer-brand small { display: block; font-size: 8px; letter-spacing: 1.7px; color: #b8c4b3; margin-top: 5px; font-weight: 500; }
+.forge-footer-brand p, .forge-footer-help p { color: #b1bfad; font-size: 12px; line-height: 1.9; margin-top: 18px; max-width: 265px; }
+.forge-footer-signature { display: flex; align-items: center; gap: 9px; font-size: 11px; color: #d0b79b; margin-top: 21px; }
+.forge-footer-grid nav { display: flex; flex-direction: column; align-items: flex-start; }
+.forge-footer-grid h3 { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+.forge-footer-grid nav a, .forge-footer-grid nav button, .forge-footer-help a { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; font-size: 12px; color: #b7c5b1; text-align: left; }
+.forge-footer a:hover, .forge-footer-grid button:hover { color: #ffcca2; }
+.forge-footer-help { padding: 22px; border: 1px solid #e1e9d924; background: #ffffff04; border-radius: 14px; }
+.forge-footer-help > svg { color: #e9ad7d; font-size: 23px; margin-bottom: 16px; }
+.forge-footer-help h3 { font-size: 18px; line-height: 1.4; letter-spacing: -.3px; }
+.forge-footer-help p { margin-top: 0; }
+.forge-footer-help a { color: #edbd94; margin-top: 10px; }
+.forge-footer-bottom { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding-block: 17px; border-top: 1px solid #e2e9d921; font-size: 10px; color: #a9b7a5; }
+.forge-footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; color: #e5d5be; }
+@media (max-width: 1000px) {
+ .forge-footer-grid { grid-template-columns: 1fr 1fr; }
+ .testimonial-card { padding: 21px; }
+}
+@media (max-width: 700px) {
+ .testimonials { padding-block: 44px; }
+ .testimonials-heading { align-items: flex-start; flex-direction: column; gap: 20px; }
+ .testimonial-grid { grid-template-columns: 1fr; gap: 14px; }
+ .testimonial-card, .testimonial-card:nth-child(n+4) { grid-column: auto; }
+ .forge-footer { padding-top: 38px; }
+ .forge-footer-invitation { flex-direction: column; align-items: flex-start; gap: 24px; padding-bottom: 30px; }
+ .forge-footer-grid { gap: 26px 20px; padding-block: 32px; }
+ .forge-footer-brand, .forge-footer-help { grid-column: 1 / -1; }
+ .forge-footer-brand p { max-width: 340px; }
+ .forge-footer-bottom { flex-wrap: wrap; font-size: 10px; }
+ .forge-footer-bottom > span:nth-child(2) { order: 3; width: 100%; padding-bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .home-page .hero-image, .home-page .hero-content > *, .hero-detail { animation: none; }
+}
