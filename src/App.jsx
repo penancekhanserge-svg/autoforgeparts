@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowRight, FiArrowUpRight, FiCheck, FiHeadphones, FiMinus, FiPlus, FiSearch, FiShield, FiShoppingBag, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiArrowDownRight, FiCheck, FiHeadphones, FiMinus, FiPlus, FiSearch, FiShield, FiShoppingBag, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FaShoppingCart } from 'react-icons/fa'
@@ -69,7 +69,7 @@ function Storefront() {
         fitment={fitment}
       />
 
-      <main>
+      <main className={isShop ? 'shop-page' : 'home-page'}>
         {!isShop && <section className="hero" aria-labelledby="hero-title">
           <img className="hero-image" src="/images/hero-car.jpg" alt="Silver sports car on a winding mountain road" fetchPriority="high" />
           <div className="hero-shade" />
@@ -80,7 +80,7 @@ function Storefront() {
             <div className="hero-actions"><button className="button button-orange" onClick={() => { clearFilters(); scrollToProducts() }}>Explore parts <FiArrowUpRight /></button><a className="button button-outline" href="#finder">Find my vehicle <FiArrowRight /></a></div>
             <div className="hero-caption"><span className="caption-line" /> FOR THE DAILY DRIVE. AND THE ROAD LESS TRAVELLED.</div>
           </div>
-          <div className="hero-index"><strong>01</strong><span>/</span> THE JOURNEY STARTS HERE</div>
+          <div className="hero-detail"><span className="hero-detail-line" /><span>BUILT AROUND YOUR DRIVE</span><strong>Every mile.<br />More possibility.</strong><a href="#showcase">Discover the collection <FiArrowDownRight /></a></div>
         </section>}
 
         <div className="container finder-container" style={isShop ? { marginTop: 28 } : undefined}>

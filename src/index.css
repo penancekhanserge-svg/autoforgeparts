@@ -422,3 +422,64 @@ body:has(dialog[open]) { overflow: hidden; }
   .category-card small { font-size: 10px; }
   .story-panel, .help-panel { padding: 24px; }
 }
+
+/* Homepage: cinematic photography, warm paper surfaces, and copper details. */
+.home-page { background: #fcfbf8; }
+.home-page .hero { min-height: 650px; background: #13231f; }
+.home-page .hero-shade { background: linear-gradient(90deg, #0b1917ed 0%, #0b1917b3 38%, #0b191726 76%), linear-gradient(0deg, #0b1917ba, transparent 55%); }
+.home-page .hero-content { padding-top: clamp(60px, 6vw, 100px); padding-bottom: 115px; }
+.home-page .hero .eyebrow { font-size: 10px; letter-spacing: 2.8px; color: #f3dfca; }
+.home-page .hero .eyebrow > span { box-shadow: 0 0 0 5px #ec8d4920; }
+.home-page .hero h1 { max-width: 820px; font-size: clamp(52px, 5.6vw, 84px); font-weight: 750; line-height: 1.02; letter-spacing: -.055em; margin-block: 28px; text-wrap: balance; }
+.home-page .hero h1 em { color: #ffad79; }
+.home-page .hero-content > p { font-size: 16px; color: #d1dad4; line-height: 1.85; }
+.home-page .hero-actions { margin-top: 32px; gap: 14px; }
+.home-page .button { min-height: 52px; border-radius: 8px; padding-inline: 24px; font-size: 13px; }
+.home-page .button-orange { background: linear-gradient(135deg, #f1884d, #dd5c29); box-shadow: 0 6px 22px #a4452926, inset 0 1px 0 #ffffff40; }
+.home-page .button-orange:hover { background: #d95f2d; }
+.home-page .button-dark { background: #23392e; }
+.home-page .button-outline { background: #ffffff09; border-color: #d8e1d657; }
+.home-page .hero-caption { color: #c4d1c7; font-size: 9px; margin-top: 34px; }
+.hero-detail { position: absolute; right: max(50px, calc((100% - 1280px) / 2)); bottom: 110px; display: grid; gap: 15px; color: #fff; }
+.hero-detail-line { width: 40px; height: 2px; background: #efaa78; }
+.hero-detail > span:not(.hero-detail-line) { font-size: 8px; letter-spacing: 2px; color: #ebd9c8; }
+.hero-detail strong { font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: -.8px; }
+.hero-detail a { display: flex; align-items: center; gap: 18px; font-size: 11px; color: #e5e9e3; min-height: 44px; }
+.hero-detail a:hover { color: #ffad79; }
+.home-page .finder { border-radius: 14px; padding: 28px; border-color: #e8ded1; background: #fffefb; box-shadow: 0 16px 44px #293a2712; }
+.home-page .finder-icon { border-radius: 12px; background: #f3e6d7; color: #ae653b; }
+.home-page .finder h2 { font-size: 17px; }
+.home-page .finder-form label { background: #f8f7f2; border-color: #e5e5dc; border-radius: 8px; padding: 10px 12px; }
+.home-page .finder-form label:focus-within { border-color: #bd794b; }
+.home-page .benefit-strip { padding-block: 38px; border-color: #e4e6da; }
+.home-page .benefit-strip strong { color: #2c3c30; font-size: 12px; }
+.home-page .benefit-strip small { color: #70796c; font-size: 11px; line-height: 1.6; }
+.home-page .showcase { background: #f1f2eb; border-color: #e5e7dc; padding-block: 58px 30px; }
+.home-page .showcase-heading h2 { font-size: clamp(29px, 3.2vw, 44px); letter-spacing: -1.5px; color: #24382c; }
+.home-page .showcase-heading > p { color: #667260; font-size: 13px; }
+.home-page .parts-viewport { border-radius: 14px; }
+.home-page .parts-showcase-card { border-radius: 14px; height: 256px; }
+.home-page .parts-card-copy { bottom: 23px; left: 22px; right: 22px; }
+.home-page .parts-card-copy strong { font-size: 21px; }
+.home-page .story-panel, .home-page .help-panel { border-radius: 16px; }
+.home-page .story-panel { background: linear-gradient(125deg, #203b2f, #15281f); }
+.home-page .help-panel { background: #f3eee4; border: 1px solid #e9dfcf; }
+@media (max-width: 1100px) { .hero-detail { display: none; } }
+@media (max-width: 600px) {
+ .home-page .hero { min-height: 0; }
+ .home-page .hero-image { object-position: 65% center; }
+ .home-page .hero-shade { background: linear-gradient(90deg, #0b1917e0, #0b19176b), linear-gradient(0deg, #0b1917d9, transparent 80%); }
+ .home-page .hero-content { padding-top: 48px; padding-bottom: 82px; }
+ .home-page .hero .eyebrow { font-size: 8px; letter-spacing: 1.7px; }
+ .home-page .hero h1 { font-size: clamp(39px, 10.6vw, 62px); line-height: 1.07; margin-block: 24px; }
+ .home-page .hero-content > p { font-size: 14px; max-width: 310px; line-height: 1.8; }
+ .home-page .hero-actions { gap: 10px; margin-top: 26px; }
+ .home-page .hero-actions .button { padding-inline: 15px; gap: 14px; font-size: 12px; }
+ .home-page .hero-caption { font-size: 7px; letter-spacing: .8px; margin-top: 27px; }
+ .home-page .finder { padding: 21px 18px; border-radius: 12px; }
+ .home-page .benefit-strip { padding-block: 28px; }
+ .home-page .benefit-strip strong { font-size: 11px; }
+ .home-page .benefit-strip small { font-size: 10px; }
+ .home-page .showcase { padding-block: 34px 20px; }
+ .home-page .parts-showcase-card { height: 230px; }
+}

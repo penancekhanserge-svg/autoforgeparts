@@ -251,3 +251,9 @@ html { scroll-padding-top: 172px; }
  .premium-nav-row { min-height: 0; }
  .premium-nav-border { border: 0; }
 }
+
+.premium-wordmark .premium-mobile-tagline { display: none; }
+@media (max-width: 600px) {
+ .premium-wordmark .premium-desktop-tagline { display: none; }
+ .premium-wordmark .premium-mobile-tagline { display: block; font-size: 7px; letter-spacing: .9px; font-weight: 650; color: #8c583c; margin-top: 7px; line-height: 1.4; }
+}

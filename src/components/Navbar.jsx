@@ -68,7 +68,7 @@ export default function Navbar({ categories, onCategory, onBrowse, onSupport, on
       <div className="container premium-main">
         <Link className="premium-brand" to="/" aria-label="AutoForge Parts home" onClick={closeMenus}>
           <span className="premium-emblem" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M8 30 20 8h6L14 30H8Zm13-11h6l6 11H21l3-5h-6l3-6Z" fill="currentColor"/></svg></span>
-          <span className="premium-wordmark">AUTO<span>FORGE</span><small>PRECISION PARTS. LIMITLESS POSSIBILITIES.</small></span>
+          <span className="premium-wordmark">AUTO<span>FORGE</span><small className="premium-desktop-tagline">PRECISION PARTS. LIMITLESS POSSIBILITIES.</small><small className="premium-mobile-tagline">PARTS FOR EVERY JOURNEY</small></span>
         </Link>
         <div className="premium-actions">
           <button className="premium-support" onClick={() => { closeMenus(); onSupport() }}><span className="premium-action-icon"><FiHeadphones /></span><span><small>A LITTLE EXPERT GUIDANCE</small><strong>Let’s talk parts <FiArrowUpRight /></strong></span></button>
