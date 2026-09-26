@@ -1,0 +1,56 @@
+.departments { padding-block: 64px 38px; background: #fffefb; border-bottom: 1px solid #e9e9df; }
+.departments-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 30px; }
+.departments-heading h2 { margin-top: 12px; color: #24382c; font-size: clamp(29px, 3.2vw, 43px); letter-spacing: -1.5px; line-height: 1.15; font-weight: 650; }
+.departments-heading p { font-size: 13px; color: #727c6c; line-height: 1.7; margin-top: 12px; }
+.departments-browse { display: inline-flex; align-items: center; justify-content: center; gap: 22px; min-height: 46px; padding: 12px 17px; border: 1px solid #dcded2; border-radius: 8px; font-size: 12px; font-weight: 600; color: #354b38; flex-shrink: 0; }
+.departments-browse:hover { background: #f1eee5; border-color: #bba78d; }
+.departments-browse svg { color: #b77347; font-size: 17px; }
+.departments-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; }
+.department-card { min-width: 0; text-align: left; border-radius: 12px; }
+.department-art { display: grid; place-items: center; position: relative; overflow: hidden; aspect-ratio: 1; border: 1px solid #e5e6dd; border-radius: 12px; background: radial-gradient(ellipse at 50% 35%, #fffefb, #eeeee5); transition: border-color .25s, box-shadow .25s; }
+.department-art > svg { display: block; width: 100%; height: auto; transition: transform .45s cubic-bezier(.2,.7,.3,1); }
+.department-number { position: absolute; top: 12px; left: 13px; color: #8a9381; font-size: 9px; letter-spacing: 1px; }
+.department-explore { position: absolute; bottom: 10px; right: 10px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #dfe2d7; background: #ffffffe6; color: #627256; transition: background .25s, color .25s; }
+.department-title { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 16px; font-size: 14px; font-weight: 650; color: #2a3e2e; }
+.department-title > svg { flex-shrink: 0; color: #b47a53; font-size: 13px; }
+.department-description { display: block; margin-top: 6px; font-size: 11px; color: #737d6b; line-height: 1.6; }
+.department-card:hover .department-art, .department-card:focus-visible .department-art { border-color: #bea07e; box-shadow: 0 10px 22px #3948270d; }
+.department-card:hover .department-art > svg { transform: translateY(-4px) scale(1.06); }
+.department-card:hover .department-explore, .department-card:focus-visible .department-explore { background: #294332; color: #fff; }
+.departments-footnote { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid #e9e9df; margin-top: 30px; padding-top: 16px; }
+.departments-footnote > span { font-size: 8px; letter-spacing: 1.5px; color: #7c866f; }
+.departments-footnote a { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: 11px; color: #96613d; font-weight: 600; }
+@media (max-width: 1000px) { .departments-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 18px; } }
+@media (max-width: 600px) {
+ .departments { padding-block: 34px 20px; }
+ .departments-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 22px; }
+ .departments-heading h2 { font-size: 29px; letter-spacing: -1px; }
+ .departments-heading p { font-size: 12px; margin-top: 9px; }
+ .departments-browse { padding: 9px 13px; min-height: 44px; font-size: 11px; }
+ .departments-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 23px 12px; }
+ .department-title { margin-top: 11px; font-size: 13px; }
+ .department-description { font-size: 10px; margin-top: 4px; }
+ .departments-footnote { margin-top: 24px; padding-top: 9px; }
+ .departments-footnote > span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .department-art, .department-art > svg, .department-explore { transition: none; } .department-card:hover .department-art > svg { transform: none; } }
+
+@keyframes department-dance { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-9px) rotate(2deg); } }
+.department-art > svg { animation: department-dance 4.8s ease-in-out infinite; transform-origin: 50% 65%; }
+.department-card:nth-child(2n) .department-art > svg { animation-delay: -1.6s; animation-direction: reverse; }
+.department-card:nth-child(3n) .department-art > svg { animation-delay: -3.2s; }
+.department-card:hover .department-art > svg, .department-card:focus-within .department-art > svg { animation-play-state: paused; }
+.department-art { background: radial-gradient(ellipse at 50% 25%, #fffdf6, #e5e9dc); border-color: #dce1d2; box-shadow: inset 0 1px 0 #fff, 0 8px 22px #34482a07; }
+.department-motion { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+.department-motion button { font-size: 11px; color: #6a775d; min-height: 44px; padding: 8px 12px; border: 1px solid #dde2d4; border-radius: 8px; }
+.departments[data-paused='true'] .department-art > svg { animation-play-state: paused; }
+@media(prefers-reduced-motion:reduce) { .department-art > svg { animation: none; } .department-motion { display: none; } }
+
+.department-viewport { overflow: hidden; padding-block: 12px; }
+.department-track { display: flex; width: max-content; animation: department-slide 48s linear infinite; }
+.department-track .departments-grid { display: flex; gap: 18px; padding-right: 18px; flex-shrink: 0; }
+.department-track .department-card { width: clamp(190px, 18vw, 245px); flex-shrink: 0; }
+.department-viewport:hover .department-track, .department-viewport:focus-within .department-track { animation-play-state: paused; }
+@keyframes department-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media(max-width:600px) { .department-track .department-card { width: 180px; } .department-track .departments-grid { gap: 12px; padding-right: 12px; } }
+@media(prefers-reduced-motion:reduce) { .department-track { animation: none; } .department-track .departments-grid[aria-hidden='true'] { display: none; } .department-viewport { overflow-x: auto; } }

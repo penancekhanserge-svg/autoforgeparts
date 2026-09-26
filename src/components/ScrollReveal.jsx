@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const targets = [
+  '.departments-heading > *', '.department-viewport', '.departments-footnote',
   '.finder-intro', '.finder-form > *', '.benefit-strip > div',
   '.showcase-heading > *', '.showcase-window', '.section-heading > *',
   '.category-card', '.product-toolbar', '.filter-summary', '.product-card',

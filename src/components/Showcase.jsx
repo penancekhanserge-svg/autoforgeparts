@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { FiPause, FiPlay } from 'react-icons/fi'
 import './Showcase.css'
 
 const parts = [
@@ -12,7 +10,6 @@ const parts = [
 ]
 
 export default function Showcase({ onExplore }) {
-  const [paused, setPaused] = useState(false)
   return (
     <section className="showcase" id="showcase" aria-label="Explore vehicle parts">
       <div className="container showcase-heading">
@@ -21,7 +18,7 @@ export default function Showcase({ onExplore }) {
       </div>
       <div className="container showcase-window">
         <div className="parts-viewport" role="region" aria-label="Parts collections">
-          <div className="parts-marquee" data-paused={paused}>
+          <div className="parts-marquee">
             {[0, 1].map((copy) => <div className="parts-marquee-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
               {parts.map((part) => <button className="parts-showcase-card" key={part.title} tabIndex={copy === 1 ? -1 : 0} aria-label={'Explore ' + part.title} onClick={() => onExplore(part.category)}>
                 <span className="parts-photo" style={{ backgroundPosition: part.position }} />
@@ -31,7 +28,7 @@ export default function Showcase({ onExplore }) {
             </div>)}
           </div>
         </div>
-        <div className="parts-showcase-footer"><span>SIX COLLECTIONS. COUNTLESS POSSIBILITIES.</span><button className="parts-motion-toggle" aria-label={paused ? 'Resume parts motion' : 'Pause parts motion'} onClick={() => setPaused(!paused)}>{paused ? <FiPlay /> : <FiPause />}<span>{paused ? 'Resume' : 'Pause'}</span></button></div>
+        <div className="parts-showcase-footer"><span>SIX COLLECTIONS. COUNTLESS POSSIBILITIES.</span></div>
       </div>
     </section>
   )
