@@ -2,6 +2,9 @@ export const vehicles = {
   Toyota: ['Camry', 'Corolla', 'RAV4'],
   Honda: ['Accord', 'Civic', 'CR-V'],
   Ford: ['Focus', 'Ranger', 'Explorer'],
+  Chevrolet: ['Silverado 1500', 'Tahoe', 'Equinox'],
+  Ram: ['1500', '2500', '3500'],
+  GMC: ['Sierra 1500', 'Yukon', 'Terrain'],
 }
 export const products = [
   { id: 'brake', name: 'Performance brake disc', brand: 'AUTOFORGE SELECT', category: 'Brakes', price: 48500, type: 'brake', tag: 'BEST SELLER', fit: ['Toyota Camry', 'Honda Accord'], years: [2018, 2019, 2020, 2021] },

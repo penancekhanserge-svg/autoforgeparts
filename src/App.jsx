@@ -7,6 +7,7 @@ import PartArt from './components/PartArt'
 import Navbar from './components/Navbar'
 import Showcase from './components/Showcase'
 import Testimonials from './components/Testimonials'
+import ScrollReveal from './components/ScrollReveal'
 import { products, vehicles, money } from './data/products'
 import { useCart } from './store/cart'
 
@@ -60,6 +61,7 @@ function Storefront() {
 
   return (
     <>
+      <ScrollReveal />
       <Navbar
         categories={categories}
         onCategory={browseCategory}

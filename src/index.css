@@ -554,3 +554,54 @@ body:has(dialog[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
  .home-page .hero-image, .home-page .hero-content > *, .hero-detail { animation: none; }
 }
+
+/* Compact mobile reviews and footer. */
+@media (max-width: 700px) {
+ .testimonials { padding-block: 30px; }
+ .testimonials-heading { gap: 12px; margin-bottom: 20px; }
+ .testimonials-heading h2 { font-size: 30px; letter-spacing: -1px; margin-top: 10px; }
+ .testimonials-note > span { font-size: 12px; }
+ .testimonial-grid { gap: 10px; }
+ .testimonial-card { padding: 16px; border-radius: 11px; }
+ .review-stars { font-size: 11px; gap: 3px; }
+ .testimonial-card h3 { font-size: 15px; margin: 12px 0 7px; }
+ .testimonial-card blockquote { font-size: 12px; line-height: 1.65; margin-bottom: 14px; }
+ .review-person { padding-top: 12px; gap: 9px; }
+ .review-avatar { width: 30px; height: 30px; font-size: 17px; }
+ .review-person strong { font-size: 11px; }
+ .review-person small { font-size: 10px; margin-top: 2px; }
+ .forge-footer { padding-top: 25px; }
+ .forge-footer-invitation { gap: 16px; padding-bottom: 23px; }
+ .forge-footer h2 { font-size: 27px; letter-spacing: -.8px; margin-top: 10px; }
+ .forge-footer-invitation .button { min-height: 44px; padding: 10px 16px; font-size: 12px; }
+ .forge-footer-grid { gap: 20px 16px; padding-block: 24px; }
+ .forge-footer-brand > a { font-size: 24px; }
+ .forge-footer-brand p, .forge-footer-signature, .forge-footer-help { display: none; }
+ .forge-footer-grid h3 { font-size: 12px; margin-bottom: 4px; }
+ .forge-footer-grid nav a, .forge-footer-grid nav button { font-size: 11px; min-height: 44px; }
+ .forge-footer-bottom { padding-block: 8px; gap: 4px 12px; }
+ .forge-footer-bottom > span:nth-child(2) { padding-bottom: 5px; }
+}
+
+/* Treat each vehicle selector as one field, including its focus indicator. */
+.finder-form label { transition: border-color .18s ease, box-shadow .18s ease, background .18s ease; }
+.finder-form label:focus-within, .home-page .finder-form label:focus-within { border-color: #b5754f; background: #fffdf9; box-shadow: 0 0 0 3px #b5754f20; }
+.finder-form select:focus, .finder-form select:focus-visible { outline: none; }
+.finder-form select { cursor: pointer; line-height: 1.4; padding-block: 8px; }
+.finder-form select:disabled { cursor: not-allowed; }
+.finder-form label span { color: #7c8278; }
+.finder-form .button { white-space: nowrap; }
+@media (max-width: 600px) {
+ .finder-form { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+ .finder-form label, .home-page .finder-form label { display: flex; align-items: center; gap: 12px; padding: 8px 14px; min-height: 62px; border-radius: 10px; }
+ .finder-form label span { flex: 0 0 70px; font-size: 10px; letter-spacing: .8px; }
+ .finder-form select { flex: 1; min-width: 0; min-height: 44px; font-size: 16px; }
+ .finder-form .button, .home-page .finder-form .button { min-height: 52px; justify-content: space-between; padding-inline: 20px; border-radius: 10px; margin-top: 2px; font-size: 14px; }
+ .finder-intro p { display: block; margin-top: 5px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .finder-form label { transition: none; } }
+
+/* Reveal content once on entry without changing its layout or scroll position. */
+.scroll-reveal-pending { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .scroll-reveal-pending { opacity: 1; } }
+@media print { .scroll-reveal-pending { opacity: 1; } }
