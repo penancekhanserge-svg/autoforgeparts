@@ -23,8 +23,8 @@ html { scroll-padding-top: 172px; }
 .premium-divider { width: 1px; height: 32px; background: #e6e8e1; }
 .premium-cart { display: flex; align-items: center; gap: 13px; padding: 6px 0; text-align: left; font-size: 11px; font-weight: 650; }
 .premium-cart small { display: block; color: #93998d; font-size: 8px; font-weight: 400; margin-top: 5px; }
-.premium-bag { position: relative; font-size: 23px; display: inline-flex; }
-.premium-bag b { position: absolute; right: -8px; top: -8px; min-width: 17px; height: 17px; padding-inline: 3px; border-radius: 50%; background: #ec7340; color: white; border: 2px solid white; font-size: 8px; display: grid; place-items: center; }
+.premium-cart-icon { position: relative; font-size: 27px; display: inline-flex; }
+.premium-cart-icon b { position: absolute; right: -8px; top: -8px; min-width: 17px; height: 17px; padding-inline: 3px; border-radius: 50%; background: #ec7340; color: white; border: 2px solid white; font-size: 8px; display: grid; place-items: center; }
 .premium-nav-border { border-top: 1px solid #eeefe9; border-bottom: 1px solid #e8ebe4; }
 .premium-nav-row { display: flex; justify-content: space-between; align-items: stretch; min-height: 58px; gap: 20px; }
 .premium-links { display: flex; align-items: stretch; gap: 30px; }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiHeadphones, FiMenu, FiSearch, FiShoppingBag, FiTool, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiHeadphones, FiMenu, FiSearch, FiTool, FiX } from 'react-icons/fi'
+import { FaShoppingCart } from 'react-icons/fa'
 import PartArt from './PartArt'
 import './Navbar.css'
 
@@ -74,7 +75,7 @@ export default function Navbar({ categories, search, setSearch, onSearch, onCate
         <div className="premium-actions">
           <button className="premium-support" onClick={() => { closeMenus(); onSupport() }}><span className="premium-action-icon"><FiHeadphones /></span><span><small>A LITTLE EXPERT GUIDANCE</small><strong>Let’s talk parts <FiArrowUpRight /></strong></span></button>
           <span className="premium-divider" />
-          <button className="premium-cart" onClick={() => { closeMenus(); onCart() }} aria-label={'Open cart, ' + count + ' items'}><span className="premium-bag"><FiShoppingBag /><b>{count}</b></span><span>Your garage<small>{count ? count + ' item' + (count === 1 ? '' : 's') + ' in cart' : 'Ready for an upgrade'}</small></span></button>
+          <button className="premium-cart" onClick={() => { closeMenus(); onCart() }} aria-label={'Open cart, ' + count + ' items'}><span className="premium-cart-icon"><FaShoppingCart aria-hidden="true" /><b>{count}</b></span><span>Your cart<small>{count ? count + ' item' + (count === 1 ? '' : 's') + ' in cart' : 'Ready for an upgrade'}</small></span></button>
           <button ref={mobileTrigger} className="premium-menu-toggle" aria-label="Toggle navigation" aria-controls="premium-navigation" aria-expanded={menuOpen} onClick={() => { setMenuOpen(!menuOpen); setCategoriesOpen(false) }}>{menuOpen ? <FiX /> : <FiMenu />}</button>
         </div>
       </div>
