@@ -132,3 +132,25 @@
  .catalog-grid.compact-square-grid .product-info { flex: none; padding: 8px 10px 6px; }
  .catalog-grid.compact-square-grid .product-bottom { margin-top: 8px; padding-top: 6px; }
 }
+
+.catalog-grid.compact-square-grid .product-image-trigger { width: 100%; position: relative; cursor: zoom-in; }
+.product-image-caption { position: absolute; left: 10px; right: 10px; bottom: 6px; display: flex; justify-content: space-between; align-items: center; color: #4e6844; font-size: 9px; line-height: 1.4; }
+.product-image-caption svg { width: 13px; height: 13px; }
+.product-image-trigger:hover .product-image-caption { color: #96613c; }
+.product-image-dialog { width: min(650px, calc(100% - 28px)); border-radius: 20px; background: #fffef8; border-color: #dde4d1; padding: 24px; }
+.image-dialog-heading { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 20px; }
+.image-dialog-heading h2 { font-size: 23px; color: #2c4630; line-height: 1.3; margin-top: 8px; }
+.image-dialog-heading button { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 50%; background: #eef2e6; font-size: 20px; }
+.image-dialog-art { display: grid; place-items: center; background: radial-gradient(ellipse at center, #fffffa, #e7eddc); border-radius: 15px; padding: 20px; }
+.image-dialog-art > svg { width: 100%; height: auto; max-height: 55dvh; }
+.image-dialog-caption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #687b59; margin-top: 17px; }
+.image-dialog-caption span { font-size: 10px; color: #8a947e; }
+@media(max-width:600px) { .product-image-dialog { padding: 18px; } .image-dialog-heading h2 { font-size: 19px; } }
+
+.catalog-search { display: flex; align-items: center; gap: 12px; padding: 5px 8px 5px 17px; min-height: 56px; margin-bottom: 15px; border: 1px solid #d6dfca; border-radius: 12px; background: #fffef9; box-shadow: 0 4px 16px #29442a06; }
+.catalog-search > svg { flex-shrink: 0; font-size: 20px; color: #8d704d; }
+.catalog .catalog-search input { flex: 1; min-width: 0; width: auto; margin: 0; padding: 10px 0; border: 0; border-radius: 0; background: transparent; font-size: 16px; outline: none; }
+.catalog-search:focus-within { border-color: #a17a52; box-shadow: 0 0 0 3px #b58e5e20; }
+.catalog-search button { display: grid; place-items: center; flex-shrink: 0; width: 44px; min-height: 44px; border-radius: 8px; color: #526b47; }
+.catalog-search button:hover { background: #edf2e5; }
+@media(max-width:600px) { .catalog-search { padding-left: 12px; gap: 9px; } }

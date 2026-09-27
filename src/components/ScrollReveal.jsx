@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const targets = [
+  '.service-strip-item',
   '.departments-heading > *', '.department-viewport', '.departments-footnote',
   '.detail-information > *', '.detail-related-heading', '.detail-related-grid > *',
   '.finder-intro', '.finder-form > *', '.benefit-strip > div',

@@ -3,12 +3,15 @@ import { FiArrowRight, FiArrowUpRight, FiArrowDownRight, FiHeadphones, FiMinus, 
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FaShoppingCart, FaWhatsapp } from 'react-icons/fa'
-import PartArt from './components/PartArt'
+import ProductVisual from './components/ProductVisual'
+import Admin from './components/Admin'
+import { useProductImages } from './store/productImages'
 import Navbar from './components/Navbar'
 import Showcase from './components/Showcase'
 import Departments from './components/Departments'
 import Catalog from './components/Catalog'
 import ContactForm from './components/ContactForm'
+import ServiceStrip from './components/ServiceStrip'
 import InfoPage from './components/InfoPage'
 import ProductDetail from './components/ProductDetail'
 import WelcomeOffer from './components/WelcomeOffer'
@@ -36,6 +39,7 @@ function Storefront() {
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'instant' })
     else window.scrollTo({ top: 0, behavior: 'instant' })
   }, [location.pathname, location.hash])
+  const [welcomeOpen, setWelcomeOpen] = useState(false)
   const [make, setMake] = useState('')
   const [model, setModel] = useState('')
   const [year, setYear] = useState('')
@@ -63,7 +67,7 @@ function Storefront() {
   return (
     <>
       <ScrollReveal />
-      <WelcomeOffer />
+      {welcomeOpen && <WelcomeOffer onDismiss={() => { setWelcomeOpen(false); clearFilters(); scrollToProducts() }} />}
       <a className="whatsapp-contact" href={'https://wa.me/237678156882?text=' + encodeURIComponent("Hello AutoForge! I need help finding the right parts for my vehicle. Could you please assist me?")} target="_blank" rel="noopener noreferrer" aria-label="Need help? Contact us directly on WhatsApp (opens in a new tab)"><span className="whatsapp-orb"><FaWhatsapp aria-hidden="true" /></span><span className="whatsapp-caption"><strong>Need help?</strong><span>Contact us directly</span></span></a>
       <Navbar
         categories={categories}
@@ -84,7 +88,7 @@ function Storefront() {
             <span className="eyebrow light"><span /> FOR THE LOVE OF THE DRIVE</span>
             <h1 id="hero-title">The right parts.<br />For every <em>journey.</em></h1>
             <p>From everyday essentials to your next upgrade.<br className="desktop-break" /> Find the parts that keep you moving forward.</p>
-            <div className="hero-actions"><button className="button button-orange" onClick={() => { clearFilters(); scrollToProducts() }}>Explore parts <FiArrowUpRight /></button><a className="button button-outline" href="#finder">Find my vehicle <FiArrowRight /></a></div>
+            <div className="hero-actions"><button className="button button-orange" onClick={() => setWelcomeOpen(true)}>Explore parts <FiArrowUpRight /></button><a className="button button-outline" href="#finder">Find my vehicle <FiArrowRight /></a></div>
             <div className="hero-caption"><span className="caption-line" /> FOR THE DAILY DRIVE. AND THE ROAD LESS TRAVELLED.</div>
           </div>
           <div className="hero-detail"><span className="hero-detail-line" /><span>BUILT AROUND YOUR DRIVE</span><strong>Every mile.<br />More possibility.</strong><a href="#showcase">Discover the collection <FiArrowDownRight /></a></div>
@@ -117,6 +121,7 @@ function Storefront() {
         <ContactForm />
         <div className="container closing-line"><FiTruck /><p>For the everyday driver. The weekend explorer. The hands-on enthusiast.</p><span>MADE TO KEEP YOU MOVING <FiArrowUpRight /></span></div>
         </>}
+        {!isInfo && <ServiceStrip />}
       </main>
 
       <footer className="forge-footer">
@@ -125,7 +130,7 @@ function Storefront() {
           <div className="forge-footer-grid">
             <div className="forge-footer-brand"><Link to="/" aria-label="AutoForge home">AUTO<span>FORGE</span><small>PARTS FOR EVERY JOURNEY</small></Link><p>For the everyday driver, the weekend explorer, and the project waiting in your garage.</p><span className="forge-footer-signature"><FiTool /> Built around your drive.</span></div>
             <nav aria-label="Footer shop navigation"><h3>Find your next part</h3><button onClick={() => { clearFilters(); scrollToProducts() }}>Shop all parts <FiArrowUpRight /></button><a href="#finder">Find by vehicle</a><button onClick={() => browseCategory('Brakes')}>Brakes & maintenance</button><button onClick={() => browseCategory('Lighting')}>Lighting & upgrades</button></nav>
-            <nav aria-label="Footer help navigation"><h3>A little guidance</h3><Link to="/privacy">Privacy</Link><button onClick={() => supportDialog.current.showModal()}>Help & support <FiArrowUpRight /></button><button onClick={() => cartDialog.current.showModal()}>Your cart ({count})</button></nav>
+            <nav aria-label="Footer help navigation"><h3>A little guidance</h3><Link to="/privacy">Privacy</Link><Link to="/admin/login">Admin login</Link><button onClick={() => supportDialog.current.showModal()}>Help & support <FiArrowUpRight /></button><button onClick={() => cartDialog.current.showModal()}>Your cart ({count})</button></nav>
             <div className="forge-footer-help"><FiHeadphones aria-hidden="true" /><h3>Good advice.<br />A better starting point.</h3><p>Start with your make, model, and year. Let's find your fit.</p><a href="#finder">Meet your next mile <FiArrowRight /></a></div>
           </div>
           <div className="forge-footer-bottom"><span>? {new Date().getFullYear()} AutoForge Parts.</span><span>Store preview ? Checkout coming soon</span><a href="#">Back to top ?</a></div>
@@ -134,7 +139,7 @@ function Storefront() {
 
       <dialog ref={quantityDialog} className="quantity-dialog" aria-labelledby="quantity-title" onClick={(event) => { if (event.target === event.currentTarget) quantityDialog.current.close() }}>
         <div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">MAKE IT YOUR NEXT UPGRADE</span><h2 id="quantity-title">Choose your quantity</h2></div><button className="icon-button" aria-label="Close quantity selection" onClick={() => quantityDialog.current.close()}><FiX /></button></div>
-          {selectedProduct && <><div className="quantity-product"><PartArt type={selectedProduct.type} /><div><span className="eyebrow">{selectedProduct.brand}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.fit[0]}</p><strong>{money(selectedProduct.price)} <small>USD / unit</small></strong></div></div>
+          {selectedProduct && <><div className="quantity-product"><ProductVisual product={selectedProduct} /><div><span className="eyebrow">{selectedProduct.brand}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.fit[0]}</p><strong>{money(selectedProduct.price)} <small>USD / unit</small></strong></div></div>
           <form onSubmit={(event) => { event.preventDefault(); const amount = Number(selectedQuantity); if (!Number.isSafeInteger(amount) || amount < 1 || amount > 99) return; for (let i = 0; i < amount; i++) add(selectedProduct.id); quantityDialog.current.close(); toast.success(amount + ' ' + selectedProduct.name + (amount === 1 ? ' added to your cart' : ' items added to your cart')) }}>
             <label className="quantity-label" htmlFor="selected-product-quantity">How many do you need?</label><div className="quantity-picker"><button type="button" aria-label="Decrease quantity" disabled={Number(selectedQuantity) <= 1} onClick={() => setSelectedQuantity(String(Math.max(1, Number(selectedQuantity) - 1)))}><FiMinus /></button><input id="selected-product-quantity" name="quantity" type="number" inputMode="numeric" required min="1" max="99" step="1" value={selectedQuantity} onChange={(event) => setSelectedQuantity(event.target.value)} /><button type="button" aria-label="Increase quantity" disabled={Number(selectedQuantity) >= 99} onClick={() => setSelectedQuantity(String(Math.min(99, Number(selectedQuantity) + 1)))}><FiPlus /></button></div>
             <div className="quantity-total" aria-live="polite"><span>Item total</span><strong>{Number.isInteger(Number(selectedQuantity)) && Number(selectedQuantity) >= 1 && Number(selectedQuantity) <= 99 ? money(selectedProduct.price * Number(selectedQuantity)) : 'Enter a quantity from 1 to 99'}</strong></div><button className="button button-dark quantity-confirm" type="submit">Add to cart <FiPlus /></button><button className="quantity-cancel" type="button" onClick={() => quantityDialog.current.close()}>Cancel</button>
@@ -142,11 +147,13 @@ function Storefront() {
         </div>
       </dialog>
 
-      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><PartArt type={product.type} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(product.price)} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button className="button button-dark cart-continue" onClick={() => { cartDialog.current.close(); toast('Checkout is not available yet. Contact us on WhatsApp for help with your order.') }}>Checkout <FiArrowRight /></button></>}</div></dialog>
+      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(product.price)} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button className="button button-dark cart-continue" onClick={() => { cartDialog.current.close(); toast('Checkout is not available yet. Contact us on WhatsApp for help with your order.') }}>Checkout <FiArrowRight /></button></>}</div></dialog>
       <dialog ref={supportDialog} className="support-dialog" aria-labelledby="support-title" onClick={(event) => { if (event.target === event.currentTarget) supportDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><h2 id="support-title">Let’s find your fit.</h2><button className="icon-button" aria-label="Close support" onClick={() => supportDialog.current.close()}><FiX /></button></div><p>Have your vehicle’s make, model, year, and engine details handy. Our vehicle finder is a good place to start.</p><p className="cart-notice">Direct customer support will be available when the store launches.</p><button className="button button-orange" onClick={() => { supportDialog.current.close(); document.getElementById('finder').scrollIntoView({ behavior: 'smooth' }) }}>Open vehicle finder <FiArrowRight /></button></div></dialog>
     </>
   )
 }
 export default function App() {
-  return <Routes><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes>
+  const loadImages = useProductImages(state => state.load)
+  useEffect(() => { loadImages() }, [loadImages])
+  return <Routes><Route path="/admin/login" element={<Admin />} /><Route path="/admin" element={<Admin dashboard />} /><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes>
 }

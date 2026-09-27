@@ -1,0 +1,17 @@
+.service-strip { background: #f6f7f0; border-top: 1px solid #e1e5d6; padding-block: 25px 30px; }
+.service-strip-caption { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 20px; font-size: 8px; font-weight: 650; letter-spacing: 1.8px; color: #92704e; }
+.service-strip-caption > span:last-child { color: #929d84; }
+.service-strip-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.service-strip-item { position: relative; display: flex; align-items: center; gap: 13px; padding: 19px 15px; border: 1px solid #e1e6d7; border-radius: 13px; background: linear-gradient(145deg,#fffef9,#f9faf3); transition: border-color .25s, box-shadow .25s, translate .25s; }
+.service-strip-icon { display: grid; place-items: center; flex-shrink: 0; width: 43px; height: 46px; border-radius: 13px 5px 13px 5px; background: #e9efdf; color: #3e6243; box-shadow: inset 0 1px 0 #fff; }
+.service-strip-icon svg { width: 22px; height: 22px; transition: transform .35s; }
+.service-strip-copy { display: block; min-width: 0; }
+.service-strip-number { display: block; font-size: 8px; letter-spacing: 1px; color: #ae8d66; margin-bottom: 6px; }
+.service-strip-copy strong { display: block; font-size: 13px; color: #2d4631; font-weight: 650; line-height: 1.4; }
+.service-strip-copy > span:last-child { display: block; font-size: 11px; color: #7b866e; line-height: 1.65; margin-top: 5px; }
+.service-strip-arrow { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; color: #b38a5b; }
+.service-strip-item:hover { translate: 0 -3px; border-color: #bca583; box-shadow: 0 9px 20px #29402a0b; }
+.service-strip-item:hover .service-strip-icon svg { transform: rotate(-8deg); }
+@media(max-width:1050px) { .service-strip-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) { .service-strip { padding-block: 22px; } .service-strip-caption > span:last-child { display: none; } .service-strip-grid { gap: 9px; } .service-strip-item { flex-direction: column; align-items: flex-start; gap: 11px; padding: 15px 12px; } .service-strip-copy strong { font-size: 12px; } .service-strip-copy > span:last-child { font-size: 10px; } .service-strip-number { display: none; } .service-strip-icon { width: 37px; height: 39px; } }
+@media(prefers-reduced-motion:reduce) { .service-strip-item,.service-strip-icon svg { transition: none; } .service-strip-item:hover { translate: none; } .service-strip-item:hover .service-strip-icon svg { transform: none; } }

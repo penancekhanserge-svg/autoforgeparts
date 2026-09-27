@@ -2,27 +2,23 @@ import { useEffect, useRef, useState } from 'react'
 import { FiArrowUpRight, FiGift, FiX, FiCheck } from 'react-icons/fi'
 import './WelcomeOffer.css'
 
-export default function WelcomeOffer() {
+export default function WelcomeOffer({ onDismiss }) {
   const dialog = useRef(null)
   const previousFocus = useRef(null)
   const [submitted, setSubmitted] = useState(false)
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   useEffect(() => {
-    try { if (sessionStorage.getItem('autoforge-welcome-seen')) return } catch { /* Storage is optional. */ }
-    const timer = window.setTimeout(() => {
-      if (document.querySelector('dialog[open]')) return
-      previousFocus.current = document.activeElement
-      dialog.current?.showModal()
-    }, 1400)
-    return () => window.clearTimeout(timer)
+    previousFocus.current = document.activeElement
+    const element = dialog.current
+    element?.showModal()
   }, [])
   const close = () => dialog.current?.close()
   const onClose = () => {
-    try { sessionStorage.setItem('autoforge-welcome-seen', 'true') } catch { /* Storage is optional. */ }
     setFullName('')
     setEmail('')
     previousFocus.current?.focus?.()
+    onDismiss()
   }
   return <dialog ref={dialog} className="welcome-offer" aria-labelledby="welcome-title" aria-describedby="welcome-description" onClose={onClose} onClick={event => { if (event.target === event.currentTarget) close() }}>
     <div className="welcome-layout">
