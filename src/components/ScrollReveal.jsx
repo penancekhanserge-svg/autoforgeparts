@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 const targets = [
   '.departments-heading > *', '.department-viewport', '.departments-footnote',
+  '.detail-information > *', '.detail-related-heading', '.detail-related-grid > *',
   '.finder-intro', '.finder-form > *', '.benefit-strip > div',
   '.showcase-heading > *', '.showcase-window', '.section-heading > *',
   '.category-card', '.product-toolbar', '.filter-summary', '.product-card',

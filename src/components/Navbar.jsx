@@ -83,10 +83,10 @@ export default function Navbar({ categories, onCategory, onBrowse, onSupport, on
             <button ref={categoryTrigger} className={'premium-categories-trigger ' + (categoriesOpen ? 'is-active' : '')} aria-expanded={categoriesOpen} aria-controls="premium-categories" onClick={() => setCategoriesOpen(!categoriesOpen)}><FiGrid /><span>Explore categories</span><FiChevronDown className={categoriesOpen ? 'rotated' : ''} /></button>
             <Link to="/" className={isHome ? "premium-home-link" : ""} onClick={closeMenus}>Home{isHome && <span />}</Link>
             <a href="/shop#parts" onClick={(event) => { event.preventDefault(); closeMenus(); onBrowse() }}>Shop all parts</a>
-            <a href="#about" onClick={closeMenus}>The AutoForge difference <FiArrowUpRight /></a>
+            <Link to="/about" onClick={closeMenus}>About us <FiArrowUpRight /></Link>
             <button className="premium-mobile-support" onClick={() => { closeMenus(); onSupport() }}><FiHeadphones /> Help & support</button>
           </nav>
-          <a className="premium-vehicle" href="#finder" onClick={closeMenus}><span className="premium-vehicle-icon"><FiTool /></span><span>{fitment ? fitment.year + ' ' + fitment.make + ' ' + fitment.model : 'Add your vehicle'}<small>{fitment ? 'Change vehicle' : 'Find your perfect fit'}</small></span><FiArrowRight /></a>
+          <a className="premium-vehicle" href="/shop#finder" onClick={closeMenus}><span className="premium-vehicle-icon"><FiTool /></span><span>{fitment ? fitment.year + ' ' + fitment.make + ' ' + fitment.model : 'Add your vehicle'}<small>{fitment ? 'Change vehicle' : 'Find your perfect fit'}</small></span><FiArrowRight /></a>
         </div>
       </div>
       {categoriesOpen && <div className="premium-mega" id="premium-categories">
