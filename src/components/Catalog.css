@@ -118,3 +118,10 @@
 @media(prefers-reduced-motion:reduce) { .catalog-add-cart { transition: none; } }
 
 .catalog-heading + .catalog-departments { margin-top: 24px; }
+
+/* Let mobile product cards fill the available width with narrow outer gutters. */
+@media (max-width: 600px) {
+ .catalog.container { width: calc(100% - 20px); }
+ .catalog-grid.compact-square-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+ .catalog-grid.compact-square-grid .product-card { width: 100%; height: auto; min-height: 250px; aspect-ratio: 1; }
+}
