@@ -125,3 +125,10 @@
  .catalog-grid.compact-square-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
  .catalog-grid.compact-square-grid .product-card { width: 100%; height: auto; min-height: 250px; aspect-ratio: 1; }
 }
+
+/* Keep mobile cards wide without stretching their height. */
+@media (max-width: 600px) {
+ .catalog-grid.compact-square-grid .product-card { aspect-ratio: auto; height: auto; min-height: 0; }
+ .catalog-grid.compact-square-grid .product-info { flex: none; padding: 8px 10px 6px; }
+ .catalog-grid.compact-square-grid .product-bottom { margin-top: 8px; padding-top: 6px; }
+}
