@@ -1,4 +1,7 @@
 import { create } from 'zustand'
-export const useProductImages = create((set) => ({ images: {}, load: async () => {
- try { const response = await fetch('/api/product-images'); if (response.ok) set({ images: await response.json() }) } catch { /* Keep illustrations when the API is unavailable. */ }
-} }))
+// Frontend demo only: photos stay in memory, with no server requests or authentication.
+export const useProductImages = create(set => ({
+ images: {},
+ setImage: (id, image) => set(state => ({ images: { ...state.images, [id]: image } })),
+ removeImage: id => set(state => { const images = { ...state.images }; delete images[id]; return { images } }),
+}))

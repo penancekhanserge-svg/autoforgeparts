@@ -4,8 +4,11 @@ import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FaShoppingCart, FaWhatsapp } from 'react-icons/fa'
 import ProductVisual from './components/ProductVisual'
-import Admin from './components/Admin'
-import { useProductImages } from './store/productImages'
+import Admin from './pages/admin/AdminPage'
+import AdminAuth from './pages/admin/AdminAuth'
+import RequireAdmin from './pages/admin/RequireAdmin'
+import ResetPassword from './pages/admin/ResetPassword'
+import { useCatalog } from './store/catalog'
 import Navbar from './components/Navbar'
 import Showcase from './components/Showcase'
 import Departments from './components/Departments'
@@ -17,7 +20,7 @@ import ProductDetail from './components/ProductDetail'
 import WelcomeOffer from './components/WelcomeOffer'
 import Testimonials from './components/Testimonials'
 import ScrollReveal from './components/ScrollReveal'
-import { products, vehicles, vehicleYears, categorySlug, money } from './data/products'
+import { vehicles, vehicleYears, categorySlug, money } from './data/products'
 import { useCart } from './store/cart'
 
 const categories = [
@@ -30,6 +33,8 @@ const categories = [
 ]
 
 function Storefront() {
+  const catalogProducts = useCatalog(state => state.products)
+  const products = catalogProducts.filter(product => product.status === 'active')
   const location = useLocation()
   const navigate = useNavigate()
   const isInfo = ['/about', '/privacy'].includes(location.pathname)
@@ -80,7 +85,7 @@ function Storefront() {
       />
 
       <main className={isProduct ? 'product-page' : isShop ? 'shop-page' : 'home-page'}>
-        {isInfo ? <InfoPage privacy={location.pathname === '/privacy'} /> : isProduct ? <ProductDetail key={location.pathname} onAdd={(id, quantity) => { for (let i = 0; i < quantity; i++) add(id); toast.success(quantity + ' item' + (quantity === 1 ? '' : 's') + ' added to your cart') }} /> : <>
+        {isInfo ? <InfoPage privacy={location.pathname === '/privacy'} /> : isProduct ? <ProductDetail key={location.pathname} onAdd={(id, quantity) => { const item = products.find(p => p.id === id); if (!item || quantity + (items.find(p => p.id === id)?.quantity || 0) > item.stock) { toast.error('Requested quantity exceeds available stock.'); return } for (let i = 0; i < quantity; i++) add(id); toast.success(quantity + ' item' + (quantity === 1 ? '' : 's') + ' added to your cart') }} /> : <>
         {!isShop && <section className="hero" aria-labelledby="hero-title">
           <img className="hero-image" src="/images/hero-car.jpg" alt="Silver sports car on a winding mountain road" fetchPriority="high" />
           <div className="hero-shade" />
@@ -140,20 +145,20 @@ function Storefront() {
       <dialog ref={quantityDialog} className="quantity-dialog" aria-labelledby="quantity-title" onClick={(event) => { if (event.target === event.currentTarget) quantityDialog.current.close() }}>
         <div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">MAKE IT YOUR NEXT UPGRADE</span><h2 id="quantity-title">Choose your quantity</h2></div><button className="icon-button" aria-label="Close quantity selection" onClick={() => quantityDialog.current.close()}><FiX /></button></div>
           {selectedProduct && <><div className="quantity-product"><ProductVisual product={selectedProduct} /><div><span className="eyebrow">{selectedProduct.brand}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.fit[0]}</p><strong>{money(selectedProduct.price)} <small>USD / unit</small></strong></div></div>
-          <form onSubmit={(event) => { event.preventDefault(); const amount = Number(selectedQuantity); if (!Number.isSafeInteger(amount) || amount < 1 || amount > 99) return; for (let i = 0; i < amount; i++) add(selectedProduct.id); quantityDialog.current.close(); toast.success(amount + ' ' + selectedProduct.name + (amount === 1 ? ' added to your cart' : ' items added to your cart')) }}>
+          <form onSubmit={(event) => { event.preventDefault(); const amount = Number(selectedQuantity); if (!Number.isSafeInteger(amount) || amount < 1 || amount > 99) return; const available = products.find(p => p.id === selectedProduct.id); const inCart = items.find(item => item.id === selectedProduct.id)?.quantity || 0; if (!available || amount + inCart > available.stock) { toast.error('Requested quantity exceeds available stock.'); return } for (let i = 0; i < amount; i++) add(selectedProduct.id); quantityDialog.current.close(); toast.success(amount + ' ' + selectedProduct.name + (amount === 1 ? ' added to your cart' : ' items added to your cart')) }}>
             <label className="quantity-label" htmlFor="selected-product-quantity">How many do you need?</label><div className="quantity-picker"><button type="button" aria-label="Decrease quantity" disabled={Number(selectedQuantity) <= 1} onClick={() => setSelectedQuantity(String(Math.max(1, Number(selectedQuantity) - 1)))}><FiMinus /></button><input id="selected-product-quantity" name="quantity" type="number" inputMode="numeric" required min="1" max="99" step="1" value={selectedQuantity} onChange={(event) => setSelectedQuantity(event.target.value)} /><button type="button" aria-label="Increase quantity" disabled={Number(selectedQuantity) >= 99} onClick={() => setSelectedQuantity(String(Math.min(99, Number(selectedQuantity) + 1)))}><FiPlus /></button></div>
             <div className="quantity-total" aria-live="polite"><span>Item total</span><strong>{Number.isInteger(Number(selectedQuantity)) && Number(selectedQuantity) >= 1 && Number(selectedQuantity) <= 99 ? money(selectedProduct.price * Number(selectedQuantity)) : 'Enter a quantity from 1 to 99'}</strong></div><button className="button button-dark quantity-confirm" type="submit">Add to cart <FiPlus /></button><button className="quantity-cancel" type="button" onClick={() => quantityDialog.current.close()}>Cancel</button>
           </form></>}
         </div>
       </dialog>
 
-      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(product.price)} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button className="button button-dark cart-continue" onClick={() => { cartDialog.current.close(); toast('Checkout is not available yet. Contact us on WhatsApp for help with your order.') }}>Checkout <FiArrowRight /></button></>}</div></dialog>
+      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(product.price)} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} disabled={quantity >= product.stock} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button className="button button-dark cart-continue" onClick={() => { cartDialog.current.close(); toast('Checkout is not available yet. Contact us on WhatsApp for help with your order.') }}>Checkout <FiArrowRight /></button></>}</div></dialog>
       <dialog ref={supportDialog} className="support-dialog" aria-labelledby="support-title" onClick={(event) => { if (event.target === event.currentTarget) supportDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><h2 id="support-title">Let’s find your fit.</h2><button className="icon-button" aria-label="Close support" onClick={() => supportDialog.current.close()}><FiX /></button></div><p>Have your vehicle’s make, model, year, and engine details handy. Our vehicle finder is a good place to start.</p><p className="cart-notice">Direct customer support will be available when the store launches.</p><button className="button button-orange" onClick={() => { supportDialog.current.close(); document.getElementById('finder').scrollIntoView({ behavior: 'smooth' }) }}>Open vehicle finder <FiArrowRight /></button></div></dialog>
     </>
   )
 }
 export default function App() {
-  const loadImages = useProductImages(state => state.load)
-  useEffect(() => { loadImages() }, [loadImages])
-  return <Routes><Route path="/admin/login" element={<Admin />} /><Route path="/admin" element={<Admin dashboard />} /><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes>
+  const loadCatalog = useCatalog(state => state.load)
+  useEffect(() => { loadCatalog() }, [loadCatalog])
+  return <Routes><Route path="/admin/login" element={<AdminAuth key="login" />} /><Route path="/admin/forgot-password" element={<AdminAuth key="recovery" recovery />} /><Route path="/admin/reset-password" element={<ResetPassword />} /><Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} /><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes>
 }
