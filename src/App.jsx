@@ -1,3 +1,6 @@
+import { useCollections } from './store/collections'
+import { useVehicleOptions } from './hooks/useVehicleOptions'
+import NotificationMessage from './components/NotificationMessage'
 import OrderConfirmation from './components/OrderConfirmation'
 import ShopByVehicle from './components/ShopByVehicle'
 import ContactOptions from './components/ContactOptions'
@@ -21,22 +24,16 @@ import ContactForm from './components/ContactForm'
 import ServiceStrip from './components/ServiceStrip'
 import InfoPage from './components/InfoPage'
 import ProductDetail from './components/ProductDetail'
-import WelcomeOffer from './components/WelcomeOffer'
 import Testimonials from './components/Testimonials'
 import ScrollReveal from './components/ScrollReveal'
-import { vehicles, vehicleYears, categorySlug, money } from './data/products'
+import { vehicleYears, categorySlug, money } from './data/products'
 import { useCart } from './store/cart'
 
-const categories = [
-  { name: 'Brakes', type: 'brake', description: 'Confidence at every stop' },
-  { name: 'Engine', type: 'filter', description: 'Keep the heart running' },
-  { name: 'Suspension', type: 'shock', description: 'A smoother road ahead' },
-  { name: 'Lighting', type: 'light', description: 'See more. Go further.' },
-  { name: 'Tyres & wheels', type: 'tyre', description: 'Made to go the distance' },
-  { name: 'Accessories', type: 'battery', description: 'The finishing touches' },
-]
+
 
 function Storefront() {
+  const categories = useCollections(state=>state.collections)
+  const { data: vehicleMakes = [], isPending: vehiclesLoading, error: vehiclesError, refetch: retryVehicles, isFetching: vehiclesFetching } = useVehicleOptions()
   const catalogProducts = useCatalog(state => state.products)
   const products = catalogProducts.filter(product => product.status === 'active')
   const location = useLocation()
@@ -49,9 +46,9 @@ function Storefront() {
     else window.scrollTo({ top: 0, behavior: 'instant' })
   }, [location.pathname, location.hash])
   const [orderConfirmation,setOrderConfirmation] = useState(null)
-  const [welcomeOpen, setWelcomeOpen] = useState(false)
   const [make, setMake] = useState('')
   const [model, setModel] = useState('')
+  const availableModels = vehicleMakes.find(item => item.name === make)?.vehicle_models || []
   const [year, setYear] = useState('')
   const [fitment, setFitment] = useState(null)
   const [selectedProduct, setSelectedProduct] = useState(null)
@@ -84,7 +81,6 @@ function Storefront() {
     <>
       <ScrollReveal />
       {orderConfirmation && <OrderConfirmation order={orderConfirmation} onClose={() => { setOrderConfirmation(null); cartDialog.current.showModal() }} />}
-      {welcomeOpen && <WelcomeOffer onDismiss={() => { setWelcomeOpen(false); clearFilters(); scrollToProducts() }} />}
       <ContactOptions />
       <Navbar
         categories={categories}
@@ -105,20 +101,21 @@ function Storefront() {
             <span className="eyebrow light"><span /> FOR THE LOVE OF THE DRIVE</span>
             <h1 id="hero-title">The right parts.<br />For every <em>journey.</em></h1>
             <p>From everyday essentials to your next upgrade.<br className="desktop-break" /> Find the parts that keep you moving forward.</p>
-            <div className="hero-actions"><button className="button button-orange" onClick={() => setWelcomeOpen(true)}>Explore parts <FiArrowUpRight /></button><a className="button button-outline" href="#finder">Find my vehicle <FiArrowRight /></a></div>
+            <div className="hero-actions"><button className="button button-orange" onClick={() => { clearFilters(); scrollToProducts() }}>Explore parts <FiArrowUpRight /></button><a className="button button-outline" href="#finder">Find my vehicle <FiArrowRight /></a></div>
             <div className="hero-caption"><span className="caption-line" /> FOR THE DAILY DRIVE. AND THE ROAD LESS TRAVELLED.</div>
           </div>
           <div className="hero-detail"><span className="hero-detail-line" /><span>BUILT AROUND YOUR DRIVE</span><strong>Every mile.<br />More possibility.</strong><a href="#showcase">Discover the collection <FiArrowDownRight /></a></div>
         </section>}
 
         <div className="container finder-container" style={isShop ? { marginTop: 28 } : undefined}>
+          {vehiclesError && <><NotificationMessage message={vehiclesError.message} /><button className="button" type="button" disabled={vehiclesFetching} onClick={() => retryVehicles()}>{vehiclesFetching ? 'Retrying...' : 'Retry loading vehicles'}</button></>}
           <section id="finder" className="finder" aria-labelledby="finder-title">
             <div className="finder-intro"><span className="finder-icon"><FiTool /></span><div><h2 id="finder-title">Start with your vehicle.</h2><p>A better fit. A better drive.</p></div></div>
-            <form className="finder-form" onSubmit={(event) => { event.preventDefault(); setFitment({ make, model, year }); navigate('/shop?' + new URLSearchParams({ make, model, year }) + '#parts') }}>
-              <label><span>01 &nbsp; MAKE</span><select required aria-label="Vehicle make" value={make} onChange={(event) => { setMake(event.target.value); setModel('') }}><option value="">Select make</option>{Object.keys(vehicles).map((value) => <option key={value}>{value}</option>)}</select></label>
-              <label><span>02 &nbsp; MODEL</span><select required aria-label="Vehicle model" disabled={!make} value={model} onChange={(event) => setModel(event.target.value)}><option value="">Select model</option>{(vehicles[make] || []).map((value) => <option key={value}>{value}</option>)}</select></label>
+            <form className="finder-form" onSubmit={(event) => { event.preventDefault(); if (vehiclesError || !availableModels.some(item => item.name === model)) { toast.error('Please select an available make and model.'); return } setFitment({ make, model, year }); navigate('/shop?' + new URLSearchParams({ make, model, year }) + '#parts') }}>
+              <label><span>01 &nbsp; MAKE</span><select required aria-label="Vehicle make" disabled={vehiclesLoading || !!vehiclesError || !vehicleMakes.length} value={make} onChange={(event) => { setMake(event.target.value); setModel('') }}><option value="">{vehiclesLoading ? 'Loading makes...' : vehiclesError ? 'Vehicles unavailable' : !vehicleMakes.length ? 'No makes available' : 'Select make'}</option>{vehicleMakes.map(item => <option key={item.id} value={item.name}>{item.name}</option>)}</select></label>
+              <label><span>02 &nbsp; MODEL</span><select required aria-label="Vehicle model" disabled={!make || !availableModels.length || !!vehiclesError} value={model} onChange={(event) => setModel(event.target.value)}><option value="">{make && !availableModels.length ? 'No models available' : 'Select model'}</option>{availableModels.map(item => <option key={item.id} value={item.name}>{item.name}</option>)}</select></label>
               <label><span>03 &nbsp; YEAR</span><select required aria-label="Vehicle year" value={year} onChange={(event) => setYear(event.target.value)}><option value="">Select year</option>{vehicleYears.map((value) => <option key={value}>{value}</option>)}</select></label>
-              <button className="button button-dark" type="submit">Find my parts <FiArrowRight /></button>
+              <button className="button button-dark" type="submit" disabled={vehiclesLoading || !!vehiclesError || !availableModels.some(item => item.name === model)}>Find my parts <FiArrowRight /></button>
             </form>
           </section>
         </div>

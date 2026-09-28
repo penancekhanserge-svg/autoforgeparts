@@ -1,3 +1,4 @@
+import { useCollections } from './collections'
 import { create } from 'zustand'
 import { products as sampleProducts } from '../data/products'
 import { readCatalog, writeCatalog } from '../lib/catalogRepository'
@@ -21,7 +22,7 @@ export const useCatalog = create((set,get) => ({
  saveProduct: async draft => {
   if (get().saving) throw new Error('Please wait for the current save to finish.')
   if (!get().ready || get().error) throw new Error('Catalog storage is not ready. Reload before editing.')
-  const product = normalizeProduct(draft, get().products)
+  const product = normalizeProduct(draft, get().products, Object.fromEntries(useCollections.getState().collections.map(item=>[item.name,item.type])))
   set({ saving: true })
   try {
    const exists = get().products.some(item => item.id === product.id)

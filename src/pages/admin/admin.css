@@ -91,3 +91,31 @@
 @media(max-width:360px) { .adm-stats strong { font-size:28px; }.adm-stats article { padding-inline:12px; } }
 /* Keep the shared dashboard header visible in every admin section. */
 .adm-app .adm-header { position:sticky; top:0; z-index:30; }
+.adm-collections-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; }
+.adm-collections-grid article { padding:20px; }.adm-collections-grid svg { width:100%; height:110px; }.adm-collections-grid h2 { font-size:18px; margin:12px 0 8px; }.adm-collections-grid p { font-size:12px; color:#7a8970; }
+.adm-confirm form label { display:block; margin:14px 0; font-size:12px; }.adm-confirm form input,.adm-confirm form select { width:100%; display:block; margin-top:7px; }
+.adm-editor-organized { width:min(780px,calc(100% - 24px)); }
+.adm-editor-organized .adm-editor-grid { display:flex; flex-direction:column; gap:0; padding:20px; }
+.adm-editor-organized .adm-form-section { padding:20px; margin-bottom:14px; }
+.adm-editor-organized .adm-form-section h3 { font-size:15px; margin-bottom:14px; }
+.adm-editor-organized .adm-form-section label { font-size:13px; margin-top:12px; }
+.adm-editor-organized .adm-form-section input,.adm-editor-organized .adm-form-section select { font-size:15px; }
+.adm-editor-organized .adm-upload-compact { padding:12px; border:1px solid #dce5d1; border-radius:10px; background:#f4f7ee; }
+.adm-upload-compact > svg { display:inline; margin-right:8px; vertical-align:middle; }
+.adm-upload-compact > span { display:block; font-size:12px; margin-top:6px; }
+.adm-editor-organized .adm-upload-compact input { margin-top:8px; padding:5px; min-height:36px; background:transparent; border:0; }
+.adm-editor-organized .adm-photo-grid:empty { display:none; }
+.adm-editor-organized .adm-photo-grid { grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); }
+.adm-editor-organized footer { justify-content:flex-end; }
+@media(max-width:600px) {
+ .adm-editor-organized .adm-editor-grid { padding:12px; }
+ .adm-editor-organized .adm-form-section { padding:15px; }
+ .adm-editor-organized .adm-form-section label { font-size:14px; }
+ .adm-editor-organized .adm-form-section h3 { font-size:16px; }
+ .adm-editor-organized .adm-form-section input,.adm-editor-organized .adm-form-section select { font-size:16px; min-width:0; }
+ .adm-editor-organized .adm-form-section p { font-size:12px; }
+ .adm-editor-organized .adm-photo-grid button { font-size:12px; }
+ .adm-editor-organized footer button { font-size:14px; flex:1; }
+}
+@media(max-width:380px) { .adm-editor-organized .adm-form-row { grid-template-columns:1fr; } }
+.adm-stats strong.adm-metric-pending { font-size:16px; line-height:1.5; letter-spacing:0; padding-right:45px; }
