@@ -24,8 +24,6 @@ export default function Catalog({ categories, onAdd, fitment }) {
   const make = params.get('make') ?? fitment?.make ?? ''
   const model = params.get('model') ?? (make === fitment?.make ? fitment?.model : '') ?? ''
   const year = params.get('year') ?? fitment?.year ?? ''
-  const brand = params.get('brand') || ''
-  const price = params.get('price') || ''
   const sort = params.get('sort') || 'featured'
   const query = params.get('q') || ''
   const update = (key, value) => {
@@ -39,9 +37,8 @@ export default function Catalog({ categories, onAdd, fitment }) {
   const filtered = products.filter(product =>
     (!category || product.category === category.name) &&
     (!make || product.make === make) && (!model || product.model === model) &&
-    (!year || product.years.includes(Number(year))) && (!brand || product.brand === brand) &&
-    matchesCatalogSearch(product, query) &&
-    (!price || (price === 'under50' ? salePrice(product) < 50 : price === '50to150' ? salePrice(product) >= 50 && salePrice(product) <= 150 : salePrice(product) > 150)),
+    (!year || product.years.includes(Number(year))) &&
+    matchesCatalogSearch(product, query),
   ).sort((a, b) => sort === 'price-low' ? salePrice(a) - salePrice(b) : sort === 'price-high' ? salePrice(b) - salePrice(a) : sort === 'name' ? a.name.localeCompare(b.name) : category ? 0 : (a.make + a.model + a.brand).localeCompare(b.make + b.model + b.brand))
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const page = Math.min(pages, Math.max(1, Math.floor(Number(params.get('page'))) || 1))
@@ -67,12 +64,10 @@ export default function Catalog({ categories, onAdd, fitment }) {
         <label>Vehicle make<select value={make} onChange={event => update('make', event.target.value)}><option value="">All makes</option>{Object.keys(vehicles).map(value => <option key={value}>{value}</option>)}</select></label>
         <label>Vehicle model<select value={model} disabled={!make} onChange={event => update('model', event.target.value)}><option value="">All models</option>{(vehicles[make] || []).map(value => <option key={value}>{value}</option>)}</select></label>
         <label>Year<select value={year} onChange={event => update('year', event.target.value)}><option value="">All years</option>{vehicleYears.map(value => <option key={value}>{value}</option>)}</select></label>
-        <label>Product brand<select value={brand} onChange={event => update('brand', event.target.value)}><option value="">All brands</option>{[...new Set(products.map(item => item.brand))].map(value => <option key={value}>{value}</option>)}</select></label>
-        <label>Price range ? USD<select value={price} onChange={event => update('price', event.target.value)}><option value="">Any price</option><option value="under50">Under $50</option><option value="50to150">$50 ? $150</option><option value="over150">Over $150</option></select></label>
       </aside>
       <div className="catalog-results"><form className="catalog-search" role="search" onSubmit={event => event.preventDefault()}><FiSearch aria-hidden="true" /><input type="search" aria-label="Search parts, brands, or vehicles" placeholder="Search parts, brands, or vehicles..." value={query} onChange={event => update('q', event.target.value)} />{query && <button type="button" aria-label="Clear search" onClick={() => update('q', '')}><FiX /></button>}</form><div className="catalog-toolbar"><span><strong>{filtered.length ? (page - 1) * PAGE_SIZE + 1 : 0} - {Math.min(page * PAGE_SIZE, filtered.length)}</strong> of {filtered.length} parts</span><label>Sort by<select value={sort} onChange={event => update('sort', event.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name</option></select></label></div>
         <div className="catalog-grid compact-square-grid">{filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(product => <article className="product-card" key={product.id}><button type="button" className="product-image product-image-trigger" aria-label={'View product image: ' + product.name} onClick={() => { setImageProduct(product); setImageIndex(0); imageDialog.current.showModal() }}><span className="catalog-product-label">{product.category}</span><span className="product-status-badges">{product.stock === 0 ? <span className="product-sold-out">Sold out</span> : discountPercent(product) > 0 ? <span className="product-discount">{discountPercent(product)}% discount</span> : null}</span><ProductVisual product={product} /><span className="product-image-caption">View product image <FiArrowUpRight aria-hidden="true" /></span></button><div className="product-info"><span className="product-brand">{product.brand}</span><h3>{product.name}</h3><p className="catalog-vehicle">{product.make} {product.model}<span className="catalog-years">Model years: {Math.min(...product.years)} - {Math.max(...product.years)}</span></p><div className="product-bottom"><span className="product-sale-price">{discountPercent(product)>0&&<del>{money(product.price)}</del>}{money(salePrice(product))}</span><button className="catalog-add-cart" disabled={product.stock === 0} aria-label={'Add ' + product.name + ' for ' + product.fit[0] + ' to cart'} onClick={() => onAdd(product.id)}><FiPlus /> {product.stock === 0 ? 'Out of stock' : 'Add to cart'}</button></div></div></article>)}</div>
-        {!filtered.length && <div className="empty-results"><h2>No matching parts.</h2><p>Try another vehicle, brand, or price range.</p><button className="button button-dark" onClick={reset}>Reset filters <FiArrowUpRight /></button></div>}
+        {!filtered.length && <div className="empty-results"><h2>No matching parts.</h2><p>Try another vehicle or search term.</p><button className="button button-dark" onClick={reset}>Reset filters <FiArrowUpRight /></button></div>}
         {pages > 1 && <nav className="catalog-pagination" aria-label="Catalog pages"><button disabled={page === 1} onClick={() => goToPage(page - 1)}>Previous</button><div className="catalog-page-numbers">{pageNumbers.map((value, index) => <span key={value}>{index > 0 && value - pageNumbers[index - 1] > 1 && <span className="catalog-page-gap">...</span>}<button aria-label={'Page ' + value} aria-current={value === page ? 'page' : undefined} onClick={() => goToPage(value)}>{value}</button></span>)}</div><button disabled={page === pages} onClick={() => goToPage(page + 1)}>Next</button><span className="catalog-page-status" aria-live="polite">Page {page} of {pages}</span></nav>}
       </div>
     </div>
