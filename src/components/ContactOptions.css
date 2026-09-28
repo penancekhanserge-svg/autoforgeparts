@@ -1,0 +1,10 @@
+.contact-direct-icons { display:flex; align-items:center; gap:10px; }
+.contact-direct-icons .sms-orb,.contact-direct-icons .whatsapp-orb { display:grid; place-items:center; width:46px; height:46px; flex:0 0 46px; border-radius:50%; border:2px solid #fff; color:#fff; font-size:26px; animation:whatsapp-dance 3.8s ease-in-out infinite; }
+.contact-direct-icons .sms-orb { background:linear-gradient(150deg,#73d7ed 0%,#16a3df 45%,#0065bf 100%); box-shadow:inset 0 2px 3px #ffffff85,inset 0 -3px 5px #00549d50,0 5px 16px #087dbb35; }
+.sms-bubble { position:relative; display:flex; align-items:center; justify-content:center; gap:3px; width:29px; height:24px; border-radius:50%; background:linear-gradient(150deg,#64cbe7,#138bcb); border-top:1px solid #c7f4ff99; box-shadow:0 2px 3px #004e9470,inset 0 1px 2px #ffffff55; }
+.sms-bubble::after { content:''; position:absolute; left:4px; bottom:-4px; width:8px; height:9px; background:#219bd1; clip-path:polygon(0 0,100% 0,0 100%); }
+.sms-bubble i { width:4px; height:4px; border-radius:50%; background:linear-gradient(#fff,#e2edf3); box-shadow:0 1px 2px #00588780; }
+.contact-direct:hover .sms-orb,.contact-direct-icons a:focus-visible { animation-play-state:paused; }
+.contact-direct-icons a:focus-visible { outline:2px solid #a87850; outline-offset:4px; }
+@media(max-width:600px) { .contact-direct-icons { gap:8px; }.contact-direct-icons .sms-orb,.contact-direct-icons .whatsapp-orb { width:42px; height:42px; flex-basis:42px; font-size:24px; } }
+@media(prefers-reduced-motion:reduce) { .contact-direct-icons .sms-orb,.contact-direct-icons .whatsapp-orb { animation:none; } }

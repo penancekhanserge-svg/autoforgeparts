@@ -1,9 +1,10 @@
+import ContactOptions from './components/ContactOptions'
 import { salePrice } from './lib/pricing'
 import { useEffect, useRef, useState } from 'react'
 import { FiArrowRight, FiArrowUpRight, FiArrowDownRight, FiHeadphones, FiMinus, FiPlus, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FaShoppingCart, FaWhatsapp } from 'react-icons/fa'
+import { FaShoppingCart } from 'react-icons/fa'
 import ProductVisual from './components/ProductVisual'
 import Admin from './pages/admin/AdminPage'
 import AdminAuth from './pages/admin/AdminAuth'
@@ -74,7 +75,7 @@ function Storefront() {
     <>
       <ScrollReveal />
       {welcomeOpen && <WelcomeOffer onDismiss={() => { setWelcomeOpen(false); clearFilters(); scrollToProducts() }} />}
-      <a className="whatsapp-contact" href={'https://wa.me/237678156882?text=' + encodeURIComponent("Hello AutoForge! I need help finding the right parts for my vehicle. Could you please assist me?")} target="_blank" rel="noopener noreferrer" aria-label="Need help? Contact us directly on WhatsApp (opens in a new tab)"><span className="whatsapp-orb"><FaWhatsapp aria-hidden="true" /></span><span className="whatsapp-caption"><strong>Need help?</strong><span>Contact us directly</span></span></a>
+      <ContactOptions />
       <Navbar
         categories={categories}
         onCategory={browseCategory}
