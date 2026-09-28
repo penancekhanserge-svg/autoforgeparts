@@ -142,6 +142,7 @@ function Storefront() {
           </div>
           <div className="forge-footer-bottom"><span>? {new Date().getFullYear()} AutoForge Parts.</span><span>Store preview ? Checkout coming soon</span><a href="#">Back to top ?</a></div>
         </div>
+        <p className="footer-powered-credit"><span>POWERED BY</span> <strong>KHANIFY</strong> <span className="footer-credit-tech">TECHNOLOGIES</span></p>
       </footer>
 
       <dialog ref={quantityDialog} className="quantity-dialog" aria-labelledby="quantity-title" onClick={(event) => { if (event.target === event.currentTarget) quantityDialog.current.close() }}>
