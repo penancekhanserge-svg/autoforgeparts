@@ -19,3 +19,52 @@
 @media(prefers-reduced-motion:reduce) { .adm-sidebar { transition:none; } }
 
 .adm-signout { display:flex; align-items:center; gap:12px; min-height:44px; padding:14px; font-size:12px; color:#bdd0bd; }
+
+/* Responsive merchant header */
+.adm-header-title { display:grid; gap:5px; min-width:0; }
+.adm-header-title > span { font-size:9px; font-weight:750; letter-spacing:1.7px; color:#536b58; }
+.adm-header-title em { font-style:normal; color:#a57750; margin-left:5px; }
+.adm-header-title strong { color:#243c30; font-size:15px; font-weight:650; letter-spacing:-.3px; }
+.adm-header .adm-store-link { display:flex; align-items:center; gap:8px; margin-left:auto; color:#416047; white-space:nowrap; min-height:44px; padding:0 13px; border:1px solid #e3e8df; border-radius:12px; font-weight:600; }
+.adm-store-link:hover { background:#edf2e7; }
+.adm-header button:focus-visible,.adm-header a:focus-visible { outline:2px solid #b78050; outline-offset:4px; }
+@media(max-width:760px) {
+ .adm-header { position:sticky; top:0; z-index:30; min-height:82px; padding:12px 14px; gap:12px; background:linear-gradient(115deg,#fffefb,#f1f5ec); border-bottom:1px solid #dce5d6; box-shadow:0 5px 22px #173c2c08; }
+ .adm-header .adm-mobile-toggle { flex:0 0 44px; height:44px; color:#fff9ec; background:linear-gradient(140deg,#385d43,#173c2c); border:1px solid #41614b; border-radius:14px; box-shadow:0 4px 9px #173c2c18; font-size:20px; }
+ .adm-header-title { gap:6px; flex:1; }
+ .adm-header-title > span { font-size:8px; letter-spacing:1.2px; white-space:nowrap; }
+ .adm-header-title em { margin-left:3px; }
+ .adm-header-title strong { font-size:16px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ .adm-header .adm-store-link { margin-left:0; padding:0 10px; width:auto; flex:0 0 auto; justify-content:center; background:#fffefa; border-radius:14px; color:#416047; font-size:17px; }
+ .adm-store-link > span { display:inline; font-size:11px; }
+ .adm-header .adm-avatar { flex:0 0 34px; width:34px; height:34px; font-size:10px; background:#e5ebdc; border:2px solid #fffefb; box-shadow:0 0 0 1px #d8e1cf; }
+ .adm-sidebar { padding-top:28px; overflow-y:auto; }
+}
+@media(max-width:360px) { .adm-header { gap:9px; padding-inline:10px; }.adm-header .adm-avatar { display:none; } }
+
+@media(max-width:420px) { .adm-header .adm-avatar { display:none; } }
+.adm-sidebar { overflow-y:auto; }
+.adm-account { max-width:1100px; }
+.adm-account-banner { display:flex; align-items:center; gap:18px; padding:24px; margin-bottom:22px; background:linear-gradient(120deg,#214331,#466344); color:#fff8e8; border-radius:16px; }
+.adm-account-banner > svg { flex-shrink:0; font-size:30px; }
+.adm-account-banner > div { min-width:0; }
+.adm-account-banner h2 { font-size:20px; margin:8px 0; overflow-wrap:anywhere; }
+.adm-account-banner p { font-size:12px; color:#ccd9c1; }
+.adm-account-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; max-width:1100px; align-items:start; }
+.adm-account-card { padding:28px; }
+.adm-account-card > svg { font-size:25px; color:#ac8057; margin-bottom:16px; }
+.adm-account-card h2 { font-size:23px; letter-spacing:-.6px; }
+.adm-account-card p { font-size:13px; color:#75836d; line-height:1.8; margin:12px 0 22px; }
+.adm-account-card label { display:block; margin-top:18px; font-size:12px; font-weight:600; }
+.adm-account-card input,.adm-account-card textarea { display:block; width:100%; margin-top:8px; }
+.adm-account-card textarea { resize:vertical; }
+.adm-account-card > button,.adm-support-actions { margin-top:24px; }
+.adm-support-actions { display:flex; flex-wrap:wrap; gap:10px; }
+.adm-developer { background:#edf2e6; }
+.adm-developer h2 { margin-top:20px; font-size:30px; }
+.adm-developer a { display:flex; gap:12px; align-items:center; padding:18px 0; border-top:1px solid #d7e1cd; font-size:13px; }
+.adm-developer a > svg { flex-shrink:0; font-size:20px; }
+.adm-developer a span { min-width:0; }
+.adm-developer small { display:block; margin-top:6px; overflow-wrap:anywhere; }
+@media(max-width:900px) { .adm-account-grid { grid-template-columns:1fr; } }
+@media(max-width:760px) { .adm-account-card { padding:22px; }.adm-account-banner { padding:20px; }.adm-account-banner h2 { font-size:16px; }.adm-sidebar nav button { padding:11px 14px; }.adm-nav-caption { margin-top:28px; } }
