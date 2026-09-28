@@ -7,8 +7,8 @@ export default function Departments({ categories, onExplore, onBrowse }) {
     <section className="departments" aria-labelledby="departments-title">
       <div className="container">
         <div className="departments-heading">
-          <div><span className="eyebrow">YOUR GARAGE. EVERY ESSENTIAL.</span><h2 id="departments-title">Engineered for<br /><em>your next mile.</em></h2><p>Explore precision parts for every system. Find the right upgrade for your vehicle.</p></div>
-          <button className="departments-browse" onClick={onBrowse}>Browse everything <FiArrowUpRight /></button>
+          <div><span className="eyebrow">YOUR GARAGE. EVERY ESSENTIAL.</span><h2 id="departments-title">Engineered for<br /><em>your next mile.</em></h2><p><strong>Shop by collection.</strong> From everyday essentials to your next upgrade, find the parts you need.</p></div>
+          <button className="departments-browse" onClick={onBrowse}>Browse all collections <FiArrowUpRight /></button>
         </div>
         <div className="department-viewport"><div className="department-track">{[0, 1].map(copy => <div className="departments-grid" key={copy} aria-hidden={copy === 1 ? true : undefined}>{categories.map((category, index) => (
           <button className="department-card" tabIndex={copy === 1 ? -1 : 0} key={category.name} onClick={() => onExplore(category.name)} aria-label={'Shop ' + category.name}>

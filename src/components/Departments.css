@@ -69,3 +69,9 @@
 .department-shop { margin-top: 12px; padding-top: 10px; font-size: 9px; }
 .departments-grid { gap: 14px; padding-right: 14px; }
 @media(max-width:600px) { .department-card { width: 175px; } .department-art { height: 135px; } .department-title { font-size: 15px; } }
+.collection-shortcuts { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 24px; }
+.collection-shortcuts button { display:flex; align-items:center; gap:10px; min-height:36px; padding:8px 13px; border:1px solid #dbe2d1; border-radius:30px; color:#365239; background:#fffef9; font-size:11px; transition:background .2s,color .2s; }
+.collection-shortcuts button:hover { background:#294731; color:#fff8e8; }
+.collection-shortcuts button:focus-visible { outline:2px solid #a87850; outline-offset:3px; }
+.departments-heading p strong { color:#365239; font-weight:600; }
+@media(prefers-reduced-motion:reduce) { .collection-shortcuts button { transition:none; } }

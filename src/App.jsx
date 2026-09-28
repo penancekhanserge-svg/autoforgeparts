@@ -1,3 +1,4 @@
+import ShopByVehicle from './components/ShopByVehicle'
 import ContactOptions from './components/ContactOptions'
 import { salePrice } from './lib/pricing'
 import { useEffect, useRef, useState } from 'react'
@@ -116,6 +117,7 @@ function Storefront() {
 
         {!isShop && <Departments categories={categories} onExplore={(name) => { clearFilters(); browseCategory(name) }} onBrowse={() => { clearFilters(); scrollToProducts() }} />}
 
+        {!isShop && <ShopByVehicle />}
         {!isShop && <Showcase onExplore={(name) => { clearFilters(); browseCategory(name) }} />}
 
         {isShop && <Catalog categories={categories} fitment={fitment} onAdd={(id) => { setSelectedProduct(products.find(product => product.id === id)); setSelectedQuantity('1'); quantityDialog.current.showModal() }} />}
