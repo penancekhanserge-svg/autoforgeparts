@@ -89,3 +89,5 @@
  .adm-stats p { font-size:11px; margin-top:12px; }
 }
 @media(max-width:360px) { .adm-stats strong { font-size:28px; }.adm-stats article { padding-inline:12px; } }
+/* Keep the shared dashboard header visible in every admin section. */
+.adm-app .adm-header { position:sticky; top:0; z-index:30; }
