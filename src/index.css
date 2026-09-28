@@ -796,3 +796,11 @@ body:has(dialog[open]) { overflow: hidden; }
 .detail-order .detail-add > span { margin-left:6px; padding-right:0; }
 .quantity-dialog .button.quantity-confirm { width:auto; min-height:38px; padding:8px 14px; gap:8px; font-size:11px; border-radius:8px; }
 .quantity-dialog .quantity-confirm svg { width:14px; height:14px; }
+/* Shared storefront and admin feedback. */
+.notification-host { position:fixed; inset:0; pointer-events:none; z-index:99999; }
+.notification-host .Toastify__toast-container { max-width:calc(100vw - 24px); }
+.notification-host .Toastify__toast { pointer-events:auto; font:500 13px/1.6 'Segoe UI',sans-serif; border:1px solid #e0e8da; border-radius:13px; color:#294731; box-shadow:0 8px 30px #173c2c22; }
+.notification-host .Toastify__close-button { min-height:24px; min-width:24px; }
+:root { --toastify-color-success:#294e37; --toastify-color-error:#ba4037; --toastify-color-info:#507a80; --toastify-color-warning:#bc853d; }
+@media(max-width:480px) { .notification-host .Toastify__toast-container { top:12px; left:12px; width:calc(100vw - 24px); }.notification-host .Toastify__toast { font-size:12px; margin-bottom:8px; } }
+@media(prefers-reduced-motion:reduce) { .notification-host * { animation-duration:1ms!important; transition-duration:1ms!important; } }
