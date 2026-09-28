@@ -1,3 +1,7 @@
+import OrderingTips from './components/OrderingTips'
+import { vehicleYearLabel } from './lib/vehicleYearLabel'
+import OrderingGuide from './components/OrderingGuide'
+import { useOrders } from './store/orders'
 import { useCollections } from './store/collections'
 import { useVehicleOptions } from './hooks/useVehicleOptions'
 import NotificationMessage from './components/NotificationMessage'
@@ -62,8 +66,8 @@ function Storefront() {
   const total = cartItems.reduce((sum, item) => sum + item.quantity * salePrice(item.product), 0)
   function placeOrder() {
     if (!cartItems.length || cartItems.length !== items.length || cartItems.some(item => !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > item.product.stock)) { toast.error('Please review your cart. Some items are unavailable or exceed available stock.'); return }
-    const order = { id: 'AF-' + crypto.randomUUID().slice(0,8).toUpperCase(), createdAt: new Date().toISOString(), total, items: cartItems.map(({product,quantity}) => ({id:product.id,name:product.name,vehicle:product.fit[0],quantity,price:salePrice(product)})) }
-    try { localStorage.setItem('autoforge-order-request',JSON.stringify(order)); cartDialog.current.close(); setOrderConfirmation(order) }
+    const order = { id: 'AF-' + crypto.randomUUID().slice(0,8).toUpperCase(), createdAt: new Date().toISOString(), total, items: cartItems.map(({product,quantity}) => ({id:product.id,name:product.name,vehicle:product.fit[0],years:[...product.years],quantity,price:salePrice(product)})) }
+    try { useOrders.getState().addOrder(order); cartDialog.current.close(); setOrderConfirmation(order) }
     catch { toast.error('Unable to save your order on this device. Please try again.') }
   }
   function scrollToProducts() {
@@ -124,10 +128,11 @@ function Storefront() {
         {!isShop && <Departments categories={categories} onExplore={(name) => { clearFilters(); browseCategory(name) }} onBrowse={() => { clearFilters(); scrollToProducts() }} />}
 
         {!isShop && <ShopByVehicle />}
-        {!isShop && <Showcase onExplore={(name) => { clearFilters(); browseCategory(name) }} />}
+        {!isShop && <Showcase onAdd={(product) => { setSelectedProduct(product); setSelectedQuantity('1'); quantityDialog.current.showModal() }} />}
 
         {isShop && <Catalog categories={categories} fitment={fitment} onAdd={(id) => { setSelectedProduct(products.find(product => product.id === id)); setSelectedQuantity('1'); quantityDialog.current.showModal() }} />}
         {!isShop && <Testimonials />}
+        {!isShop && <OrderingGuide />}
 
         <section className="container story-section" id="about">
           <div className="story-panel"><span className="eyebrow light">MORE THAN A PART. A POSSIBILITY.</span><h2>Keep the good<br />miles coming.</h2><p>A morning commute. A weekend escape. That project in the garage. Whatever drives you, we’re building a better way to find your next part.</p><a className="button button-orange" href="#finder">Find your fit <FiArrowUpRight /></a><span className="story-outline" aria-hidden="true">AF</span></div>
@@ -139,6 +144,7 @@ function Storefront() {
         {!isInfo && <ServiceStrip />}
       </main>
 
+      {!isShop && !isProduct && !isInfo && <section className="container footer-ordering-tips" aria-label="Ordering tips"><OrderingTips /></section>}
       <footer className="forge-footer">
         <div className="container">
           <div className="forge-footer-invitation"><div><span className="eyebrow">YOUR NEXT CHAPTER STARTS HERE</span><h2>More life.<br />More miles. <em>More possibility.</em></h2></div><button className="button" onClick={() => { clearFilters(); scrollToProducts() }}>Find your next part <FiArrowUpRight /></button></div>
@@ -155,7 +161,7 @@ function Storefront() {
 
       <dialog ref={quantityDialog} className="quantity-dialog" aria-labelledby="quantity-title" onClick={(event) => { if (event.target === event.currentTarget) quantityDialog.current.close() }}>
         <div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">MAKE IT YOUR NEXT UPGRADE</span><h2 id="quantity-title">Choose your quantity</h2></div><button className="icon-button" aria-label="Close quantity selection" onClick={() => quantityDialog.current.close()}><FiX /></button></div>
-          {selectedProduct && <><div className="quantity-product"><ProductVisual product={selectedProduct} /><div><span className="eyebrow">{selectedProduct.brand}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.fit[0]}</p><strong>{money(salePrice(selectedProduct))} <small>USD / unit</small></strong></div></div>
+          {selectedProduct && <><div className="quantity-product"><ProductVisual product={selectedProduct} /><div><span className="eyebrow">{selectedProduct.brand}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.fit[0]} {vehicleYearLabel(selectedProduct.years)}</p><p>{selectedProduct.description || 'Choose your quantity below. Contact our team to confirm exact fitment.'}</p><strong>{money(salePrice(selectedProduct))} <small>USD / unit</small></strong></div></div>
           <form onSubmit={(event) => { event.preventDefault(); const amount = Number(selectedQuantity); if (!Number.isSafeInteger(amount) || amount < 1 || amount > 99) { toast.error('Enter a whole quantity from 1 to 99.'); return; } const available = products.find(p => p.id === selectedProduct.id); const inCart = items.find(item => item.id === selectedProduct.id)?.quantity || 0; if (!available || amount + inCart > available.stock) { toast.error('Requested quantity exceeds available stock.'); return } for (let i = 0; i < amount; i++) add(selectedProduct.id); quantityDialog.current.close(); toast.success(amount + ' ' + selectedProduct.name + (amount === 1 ? ' added to your cart' : ' items added to your cart')) }}>
             <label className="quantity-label" htmlFor="selected-product-quantity">How many do you need?</label><div className="quantity-picker"><button type="button" aria-label="Decrease quantity" disabled={Number(selectedQuantity) <= 1} onClick={() => setSelectedQuantity(String(Math.max(1, Number(selectedQuantity) - 1)))}><FiMinus /></button><input id="selected-product-quantity" name="quantity" type="number" inputMode="numeric" required min="1" max="99" step="1" value={selectedQuantity} onChange={(event) => setSelectedQuantity(event.target.value)} /><button type="button" aria-label="Increase quantity" disabled={Number(selectedQuantity) >= 99} onClick={() => setSelectedQuantity(String(Math.min(99, Number(selectedQuantity) + 1)))}><FiPlus /></button></div>
             <div className="quantity-total" aria-live="polite"><span>Item total</span><strong>{Number.isInteger(Number(selectedQuantity)) && Number(selectedQuantity) >= 1 && Number(selectedQuantity) <= 99 ? money(salePrice(selectedProduct) * Number(selectedQuantity)) : 'Enter a quantity from 1 to 99'}</strong></div><button className="button button-dark quantity-confirm" type="submit">Add to cart <FiPlus /></button><button className="quantity-cancel" type="button" onClick={() => quantityDialog.current.close()}>Cancel</button>

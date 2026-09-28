@@ -12,7 +12,7 @@ export default function Departments({ categories, onExplore, onBrowse }) {
         </div>
         <div className="department-viewport"><div className="department-track">{[0, 1].map(copy => <div className="departments-grid" key={copy} aria-hidden={copy === 1 ? true : undefined}>{categories.map((category, index) => (
           <button className="department-card" tabIndex={copy === 1 ? -1 : 0} key={category.name} onClick={() => onExplore(category.name)} aria-label={'Shop ' + category.name}>
-            <span className="department-art"><span className="department-number" aria-hidden="true">COLLECTION / 0{index + 1}</span><span className="department-orbit" aria-hidden="true" /><PartArt type={category.type} /><span className="department-explore" aria-hidden="true"><FiArrowUpRight /></span></span>
+            <span className="department-art"><span className="department-number" aria-hidden="true">COLLECTION / 0{index + 1}</span><span className="department-orbit" aria-hidden="true" />{category.image?<img className="collection-cover-image" src={category.image} alt={category.name} />:<PartArt type={category.type} />}<span className="department-explore" aria-hidden="true"><FiArrowUpRight /></span></span>
             <span className="department-copy"><span className="department-title">{category.name}</span><span className="department-description">{category.description}</span><span className="department-shop">Explore collection <FiArrowRight aria-hidden="true" /></span></span>
           </button>
         ))}</div>)}</div></div>

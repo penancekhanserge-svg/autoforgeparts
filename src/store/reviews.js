@@ -1,0 +1,4 @@
+import { create } from 'zustand'
+let initial=[]
+try { const stored=JSON.parse(localStorage.getItem('autoforge-reviews')||'[]');if(Array.isArray(stored))initial=stored } catch { /* No saved reviews. */ }
+export const useReviews=create((set,get)=>({reviews:initial,saveReview:review=>{const item={...review,id:review.id||crypto.randomUUID(),name:review.name.trim(),title:review.title.trim(),quote:review.quote.trim(),rating:Number(review.rating)};if(!item.name||!item.title||!item.quote||!Number.isInteger(item.rating)||item.rating<1||item.rating>5)throw new Error('Complete all review fields and choose a rating from 1 to 5.');const next=[item,...get().reviews.filter(r=>r.id!==item.id)];localStorage.setItem('autoforge-reviews',JSON.stringify(next));set({reviews:next})},deleteReview:id=>{const next=get().reviews.filter(r=>r.id!==id);localStorage.setItem('autoforge-reviews',JSON.stringify(next));set({reviews:next})}}))

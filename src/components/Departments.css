@@ -75,3 +75,4 @@
 .collection-shortcuts button:focus-visible { outline:2px solid #a87850; outline-offset:3px; }
 .departments-heading p strong { color:#365239; font-weight:600; }
 @media(prefers-reduced-motion:reduce) { .collection-shortcuts button { transition:none; } }
+.department-art .collection-cover-image { width:100%; height:100%; object-fit:contain; padding:24px; }

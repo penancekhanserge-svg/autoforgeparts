@@ -9,15 +9,18 @@ const defaults = [
   { name: 'Accessories', type: 'battery', description: 'The finishing touches' },
 ]
 let saved=[]
-try { saved=JSON.parse(localStorage.getItem('autoforge-collections')||'[]') } catch { /* Keep built-in collections available. */ }
+try { saved=JSON.parse(localStorage.getItem('autoforge-collections')||'[]') } catch { /* Use defaults. */ }
+let all
+try { all=JSON.parse(localStorage.getItem('autoforge-collections-v2')||'null') } catch { /* Use legacy data. */ }
 export const useCollections=create((set,get)=>({
- collections:[...defaults,...(Array.isArray(saved)?saved:[])],
- addCollection:({name,description,type})=>{
-  name=name.trim(); description=description.trim()
-  if(!name || !categorySlug(name))throw new Error('Enter a collection name.')
-  if(get().collections.some(item=>categorySlug(item.name)===categorySlug(name)))throw new Error('That collection already exists.')
-  const next=[...get().collections,{name,description,type}]
-  localStorage.setItem('autoforge-collections',JSON.stringify(next.slice(defaults.length)))
-  set({collections:next})
- }
+ collections:Array.isArray(all)?all:[...defaults,...(Array.isArray(saved)?saved:[])],
+ saveCollection:(draft,original)=>{
+  const name=draft.name.trim(),description=draft.description.trim()
+  if(!name||!categorySlug(name))throw new Error('Enter a collection name.')
+  if(get().collections.some(item=>item.name!==original&&categorySlug(item.name)===categorySlug(name)))throw new Error('That collection already exists.')
+  const item={...draft,name,description}
+  const next=original?get().collections.map(value=>value.name===original?item:value):[...get().collections,item]
+  localStorage.setItem('autoforge-collections-v2',JSON.stringify(next));set({collections:next})
+ },
+ deleteCollection:name=>{const next=get().collections.filter(item=>item.name!==name);localStorage.setItem('autoforge-collections-v2',JSON.stringify(next));set({collections:next})}
 }))

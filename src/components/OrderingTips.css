@@ -1,0 +1,11 @@
+
+.tip-feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.footer-ordering-tips .tip-feature-card { text-align:center; background:#fffefa; color:#294731; border:1px solid #e0e6d8; border-radius:24px; box-shadow:0 12px 34px #2446320c; padding:30px 24px; }
+.tip-feature-icon { display:inline-grid; place-items:center; width:60px; height:60px; border-radius:18px; background:#f1f3e9; color:#ab764d; font-size:30px; margin-bottom:16px; }
+.footer-ordering-tips .tip-feature-card .ordering-tip-copy { min-height:115px; }
+.footer-ordering-tips .tip-feature-card h3 { font-size:21px; color:#294731; }
+.footer-ordering-tips .tip-feature-card p { font-size:16px; color:#74816b; margin:10px auto; }
+.tip-feature-card .ordering-tip-dots { justify-content:center; }
+.tip-feature-card .ordering-tip-dots button span { background:#bfc7b8; }
+.tip-feature-card .ordering-tip-dots button[aria-pressed='true'] span { background:#294731; }
+@media(max-width:650px) { .tip-feature-grid { grid-template-columns:1fr; gap:16px; }.footer-ordering-tips .tip-feature-card { padding:24px 18px; } }

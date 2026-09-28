@@ -13,3 +13,4 @@
 .order-confirmation-actions svg { font-size:20px; }
 .order-confirmation > small { display:block; margin-top:18px; font-size:10px; line-height:1.9; color:#7b8971; }
 @media(prefers-reduced-motion:reduce) { .order-confirmation-actions a { transition:none; } }
+.order-copy-message { display:block; margin:16px auto 0; padding:8px; font-size:12px; color:#637957; text-decoration:underline; text-underline-offset:3px; }
