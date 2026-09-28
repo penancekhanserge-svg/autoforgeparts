@@ -810,3 +810,14 @@ body:has(dialog[open]) { overflow: hidden; }
 .footer-powered-credit strong { color:#f0b781; font-size:9px; font-weight:750; letter-spacing:1.8px; }
 .footer-powered-credit .footer-credit-tech { color:#d3dec7; }
 @media(max-width:600px) { .footer-powered-credit { font-size:7px; letter-spacing:1px; }.footer-powered-credit strong { font-size:8px; letter-spacing:1.3px; } }
+/* Let mobile reviews fill the available width with compact gutters. */
+@media(max-width:600px) {
+ .testimonials > .container { width:calc(100% - 20px); max-width:none; margin-inline:auto; padding-inline:0; }
+ .testimonials .testimonial-grid { grid-template-columns:minmax(0,1fr); gap:10px; }
+ .testimonials .testimonial-card { width:100%; min-width:0; margin:0; padding:13px; border-radius:12px; }
+ .testimonials .testimonial-card h3 { margin:10px 0 6px; }
+ .testimonials .testimonial-card blockquote { margin-bottom:11px; }
+ .testimonials .review-person { padding-top:10px; gap:8px; }
+ .testimonials .review-person > div { min-width:0; }
+ .testimonials .review-person small { overflow-wrap:anywhere; }
+}
