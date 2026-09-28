@@ -154,3 +154,9 @@
 .catalog-search button { display: grid; place-items: center; flex-shrink: 0; width: 44px; min-height: 44px; border-radius: 8px; color: #526b47; }
 .catalog-search button:hover { background: #edf2e5; }
 @media(max-width:600px) { .catalog-search { padding-left: 12px; gap: 9px; } }
+.product-status-badges { position:absolute; top:7px; right:7px; z-index:2; display:flex; pointer-events:none; }
+.product-status-badges > span { padding:3px 5px; border-radius:4px; font-size:8px; font-weight:600; line-height:1.2; letter-spacing:0; box-shadow:none; }
+.product-sold-out { text-decoration:line-through; text-decoration-thickness:1px; background:#fff0ed; color:#ba302d; border:1px solid #f1cbc4; }
+.product-discount { background:#254a37; color:#fff8e8; border:1px solid #365c42; }
+.product-sale-price { display:flex; flex-direction:column; gap:3px; }
+.product-sale-price del { font-size:11px; font-weight:400; color:#84907d; }

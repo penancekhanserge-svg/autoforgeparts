@@ -788,3 +788,11 @@ body:has(dialog[open]) { overflow: hidden; }
 .detail-admin-copy p { white-space:pre-wrap; color:#7c8970; line-height:1.8; font-size:14px; }
 
 .image-product-details { display:inline-flex; align-items:center; gap:10px; min-height:44px; color:#557349; font-size:12px; margin-top:10px; }
+/* Compact purchase controls across the storefront. */
+.catalog-grid .product-bottom .catalog-add-cart { width:auto; height:32px; min-height:32px; padding:5px 8px; gap:4px; border-radius:7px; font-size:9px; line-height:1.2; }
+.catalog-grid .product-bottom .catalog-add-cart svg { width:11px; height:11px; font-size:11px; }
+.detail-order .detail-add { flex:0 1 auto; min-height:38px; padding:8px 12px; gap:8px; font-size:11px; border-radius:8px; }
+.detail-order .detail-add > svg { margin-left:0; width:14px; height:14px; }
+.detail-order .detail-add > span { margin-left:6px; padding-right:0; }
+.quantity-dialog .button.quantity-confirm { width:auto; min-height:38px; padding:8px 14px; gap:8px; font-size:11px; border-radius:8px; }
+.quantity-dialog .quantity-confirm svg { width:14px; height:14px; }

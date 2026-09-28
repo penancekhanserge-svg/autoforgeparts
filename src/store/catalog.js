@@ -2,12 +2,20 @@ import { create } from 'zustand'
 import { products as sampleProducts } from '../data/products'
 import { readCatalog, writeCatalog } from '../lib/catalogRepository'
 import { normalizeProduct } from '../lib/productModel'
-const initial = sampleProducts.map((product,index) => ({ ...product, sku: 'AF-' + String(index + 1).padStart(5,'0'), stock: 10, status: 'active', description: '', specifications: '', warranty: '', photos: [] }))
+const initial = sampleProducts.map((product,index) => ({ ...product, sku: 'AF-' + String(index + 1).padStart(5,'0'), discountPercent: index % 12 === 0 ? 3 : 0, stock: [1, 49].includes(index % 90) ? 0 : 10, status: 'active', description: '', specifications: '', warranty: '', photos: [] }))
+const sampleDefaults = new Map(initial.map(product => [product.id, product]))
+// Refresh only unedited sample inventory; preserve all merchant edits.
+function applySampleDefaults(products) {
+ return products.map(product => {
+  const sample = sampleDefaults.get(product.id)
+  return sample && !product.updatedAt ? { ...product, stock: sample.stock, discountPercent: product.discountPercent ?? sample.discountPercent } : product
+ })
+}
 let loading
 export const useCatalog = create((set,get) => ({
  products: initial, ready: false, error: '', saving: false,
  load: () => {
-  if (!loading) loading = readCatalog().then(saved => set({ products: saved || initial, ready: true, error: '' })).catch(error => set({ ready: true, error: error.message }))
+  if (!loading) loading = readCatalog().then(saved => set({ products: saved ? applySampleDefaults(saved) : initial, ready: true, error: '' })).catch(error => set({ ready: true, error: error.message }))
   return loading
  },
  saveProduct: async draft => {

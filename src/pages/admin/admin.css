@@ -68,3 +68,24 @@
 .adm-developer small { display:block; margin-top:6px; overflow-wrap:anywhere; }
 @media(max-width:900px) { .adm-account-grid { grid-template-columns:1fr; } }
 @media(max-width:760px) { .adm-account-card { padding:22px; }.adm-account-banner { padding:20px; }.adm-account-banner h2 { font-size:16px; }.adm-sidebar nav button { padding:11px 14px; }.adm-nav-caption { margin-top:28px; } }
+/* Soft mint statistic cards with sculpted corner accents. */
+.adm-stats { gap:22px; }
+.adm-stats article { --stat-tint:#d9f2e4; isolation:isolate; overflow:hidden; padding:30px 26px 25px; min-height:155px; border:1px solid #e3f0ea; border-radius:21px; background:linear-gradient(135deg,#fff,#fbfdfb); box-shadow:0 12px 28px #21887213,0 3px 5px #2188720b; }
+.adm-stats article:nth-child(2) { --stat-tint:#d7f3ea; }
+.adm-stats article:nth-child(3) { --stat-tint:#f0ecdb; border-color:#eeeadd; }
+.adm-stats article:nth-child(4) { --stat-tint:#dceff5; }
+.adm-stats article::before { content:''; position:absolute; z-index:-1; width:180px; height:110px; right:-34px; bottom:-40px; border-radius:65% 40% 0 0; transform:rotate(-30deg); background:linear-gradient(125deg,transparent,var(--stat-tint)); }
+.adm-stats article::after { content:''; position:absolute; z-index:-1; width:100px; height:120px; right:-14px; bottom:-35px; border-radius:70% 20% 0 0; background:linear-gradient(150deg,var(--stat-tint),transparent); opacity:.5; }
+.adm-stats article > span { right:20px; top:20px; display:grid; place-items:center; width:51px; height:51px; padding:0; border-radius:15px; background:linear-gradient(140deg,#f2f8f0,var(--stat-tint)); color:#087c42; }
+.adm-stats article > span svg { width:25px; height:25px; stroke-width:2; }
+.adm-stats strong { color:#073b2e; font-size:43px; line-height:1.15; font-weight:750; letter-spacing:-1.8px; padding-right:47px; margin-top:10px; }
+.adm-stats p { color:#52655b; font-size:13px; margin-top:13px; position:relative; }
+@media(max-width:760px) {
+ .adm-stats { gap:12px; }
+ .adm-stats article { padding:20px 16px 17px; min-height:137px; border-radius:17px; }
+ .adm-stats article > span { width:34px; height:34px; top:13px; right:12px; border-radius:10px; }
+ .adm-stats article > span svg { width:19px; height:19px; }
+ .adm-stats strong { font-size:32px; padding-right:25px; margin-top:18px; }
+ .adm-stats p { font-size:11px; margin-top:12px; }
+}
+@media(max-width:360px) { .adm-stats strong { font-size:28px; }.adm-stats article { padding-inline:12px; } }
