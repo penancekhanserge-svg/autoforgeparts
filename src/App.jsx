@@ -39,6 +39,8 @@ function Storefront() {
   const categories = useCollections(state=>state.collections)
   const { data: vehicleMakes = [], isPending: vehiclesLoading, error: vehiclesError, refetch: retryVehicles, isFetching: vehiclesFetching } = useVehicleOptions()
   const catalogProducts = useCatalog(state => state.products)
+  const catalogError = useCatalog(state => state.error)
+  const catalogReady = useCatalog(state => state.ready)
   const products = catalogProducts.filter(product => product.status === 'active')
   const location = useLocation()
   const navigate = useNavigate()
@@ -97,6 +99,7 @@ function Storefront() {
       />
 
       <main className={isProduct ? 'product-page' : isShop ? 'shop-page' : 'home-page'}>
+        {!catalogReady&&<p role="status">Loading products...</p>}{catalogError&&<div role="alert">Unable to load products. <button onClick={()=>useCatalog.getState().load()}>Retry</button></div>}
         {isInfo ? <InfoPage privacy={location.pathname === '/privacy'} /> : isProduct ? <ProductDetail key={location.pathname} onAdd={(id, quantity) => { const item = products.find(p => p.id === id); if (!item || quantity + (items.find(p => p.id === id)?.quantity || 0) > item.stock) { toast.error('Requested quantity exceeds available stock.'); return } for (let i = 0; i < quantity; i++) add(id); toast.success(quantity + ' item' + (quantity === 1 ? '' : 's') + ' added to your cart') }} /> : <>
         {!isShop && <section className="hero" aria-labelledby="hero-title">
           <img className="hero-image" src="/images/hero-car.jpg" alt="Silver sports car on a winding mountain road" fetchPriority="high" />

@@ -145,3 +145,14 @@
 .adm-editor .adm-availability input { width:17px; height:17px; min-height:0; margin:0; accent-color:#294e37; }
 .adm-badge.unspecified { background:#edf0f3; color:#637080; border:1px solid #dce2e8; }
 .adm-review-entry { padding:20px 0; border-bottom:1px solid #e1e7d8; overflow-wrap:anywhere; }.adm-review-entry h3 { margin-top:10px; font-size:16px; }.adm-review-entry .adm-row-actions { gap:8px; }
+
+.adm-processing-spinner { display:inline-block; width:18px; height:18px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; animation:adm-process-spin .7s linear infinite; vertical-align:middle; margin-right:7px; flex-shrink:0; }
+@keyframes adm-process-spin { to {transform:rotate(360deg)} }
+.adm-app button:disabled { cursor:wait; opacity:.6; }.adm-collection-feedback { padding:18px 23px; display:flex; align-items:center; gap:10px; }
+
+.adm-collection-thumbnail > img { width:56px; height:56px; object-fit:cover; border-radius:12px; flex-shrink:0; }
+.adm-collection-current-image { width:100%; max-width:300px; height:190px; object-fit:cover; border-radius:16px; }
+
+.adm-app .adm-table-product > img,
+.adm-editor .adm-current-image,
+.adm-app .adm-media-grid img { object-fit:cover; border-radius:18px; clip-path:inset(0 round 18px); }
