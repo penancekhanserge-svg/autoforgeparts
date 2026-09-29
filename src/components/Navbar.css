@@ -257,3 +257,5 @@ html { scroll-padding-top: 172px; }
  .premium-wordmark .premium-desktop-tagline { display: none; }
  .premium-wordmark .premium-mobile-tagline { display: block; font-size: 7px; letter-spacing: .9px; font-weight: 650; color: #8c583c; margin-top: 7px; line-height: 1.4; }
 }
+
+.premium-category-list .premium-part-image { display:grid; place-items:center; width:74px; height:64px; flex:0 0 74px; border-radius:12px; overflow:hidden; background:#f1f4ed; }.premium-category-list .premium-part-image > img { display:block; width:100%; height:100%; object-fit:cover; border-radius:12px; }.premium-category-list .premium-part-image > svg { width:24px; height:24px; color:#84947b; }

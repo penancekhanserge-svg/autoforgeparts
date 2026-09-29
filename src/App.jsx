@@ -63,14 +63,32 @@ function Storefront() {
   const cartDialog = useRef(null)
   const supportDialog = useRef(null)
   const { items, add, change, remove } = useCart()
+  useEffect(() => {
+    if(!catalogReady || catalogError)return
+    const availableIds=new Set(catalogProducts.filter(product=>product.status==='active').map(product=>product.id))
+    const missing=items.filter(item=>!availableIds.has(item.id))
+    if(!missing.length)return
+    for(const item of missing)remove(item.id)
+    toast.info('Removed unavailable products from your saved cart. Your available items are still here.',{toastId:'cart-unavailable-items'})
+  },[catalogReady,catalogError,catalogProducts,items,remove])
   const cartItems = items.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item) => item.product)
   const count = cartItems.reduce((sum, item) => sum + item.quantity, 0)
   const total = cartItems.reduce((sum, item) => sum + item.quantity * salePrice(item.product), 0)
-  function placeOrder() {
-    if (!cartItems.length || cartItems.length !== items.length || cartItems.some(item => !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > item.product.stock)) { toast.error('Please review your cart. Some items are unavailable or exceed available stock.'); return }
-    const order = { id: 'AF-' + crypto.randomUUID().slice(0,8).toUpperCase(), createdAt: new Date().toISOString(), total, items: cartItems.map(({product,quantity}) => ({id:product.id,name:product.name,vehicle:product.fit[0],years:[...product.years],quantity,price:salePrice(product)})) }
-    try { useOrders.getState().addOrder(order); cartDialog.current.close(); setOrderConfirmation(order) }
-    catch { toast.error('Unable to save your order on this device. Please try again.') }
+  const [placingOrder,setPlacingOrder]=useState(false)
+  const checkoutAttempt=useRef(null)
+  async function placeOrder() {
+    if(placingOrder)return
+    if(!catalogReady||catalogError){toast.error('Wait for the product catalog to load successfully before placing your order.');return}
+    if(!cartItems.length){toast.error('Add a product to your cart before placing the order.');return}
+    if(cartItems.length!==items.length){toast.info('Your cart is updating. Please try again.');return}
+    const fingerprint=JSON.stringify(items.map(item=>({id:item.id,quantity:item.quantity})))
+    if(!checkoutAttempt.current){try{checkoutAttempt.current=JSON.parse(sessionStorage.getItem('autoforge-checkout-attempt'))}catch{/* Use a new checkout key. */}}
+    if(checkoutAttempt.current?.fingerprint!==fingerprint)checkoutAttempt.current={fingerprint,key:crypto.randomUUID()}
+    try{sessionStorage.setItem('autoforge-checkout-attempt',JSON.stringify(checkoutAttempt.current))}catch{/* Keep the in-memory key for retries. */}
+    setPlacingOrder(true)
+    try {const order=await useOrders.getState().addOrder(items,checkoutAttempt.current.key);cartDialog.current.close();setOrderConfirmation(order);for(const item of items)remove(item.id);checkoutAttempt.current=null;try{sessionStorage.removeItem('autoforge-checkout-attempt')}catch{/* Order is already saved. */}}
+    catch(error){toast.error(error.message||'Unable to place your order. Please try again.')}
+    finally{setPlacingOrder(false)}
   }
   function scrollToProducts() {
     if (location.pathname !== '/shop' || location.search) navigate('/shop#parts')
@@ -157,7 +175,7 @@ function Storefront() {
             <nav aria-label="Footer help navigation"><h3>A little guidance</h3><Link to="/privacy">Privacy</Link><Link to="/admin/login" state={{ adminLoginEntry: true }}>Admin login</Link><button onClick={() => supportDialog.current.showModal()}>Help & support <FiArrowUpRight /></button><button onClick={() => cartDialog.current.showModal()}>Your cart ({count})</button></nav>
             <div className="forge-footer-help"><FiHeadphones aria-hidden="true" /><h3>Good advice.<br />A better starting point.</h3><p>Start with your make, model, and year. Let's find your fit.</p><a href="#finder">Meet your next mile <FiArrowRight /></a></div>
           </div>
-          <div className="forge-footer-bottom"><span>? {new Date().getFullYear()} AutoForge Parts.</span><span>Store preview ? Checkout coming soon</span><a href="#">Back to top ?</a></div>
+          <div className="forge-footer-bottom"><span>&copy; {new Date().getFullYear()} All rights reserved.</span><a href="#">Back to top &uarr;</a></div>
         </div>
         <p className="footer-powered-credit"><span>POWERED BY</span> <strong>KHANIFY</strong> <span className="footer-credit-tech">TECHNOLOGIES</span></p>
       </footer>
@@ -172,7 +190,7 @@ function Storefront() {
         </div>
       </dialog>
 
-      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(salePrice(product))} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} disabled={quantity >= product.stock} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button className="button button-dark cart-continue" onClick={placeOrder}>Place order <FiArrowRight /></button></>}</div></dialog>
+      <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(salePrice(product))} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} disabled={quantity >= product.stock} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button disabled={placingOrder||!catalogReady||!!catalogError} className="button button-dark cart-continue" onClick={placeOrder}>{placingOrder?<><span className="adm-processing-spinner" /> Placing order...</>:<>Place order <FiArrowRight /></>}</button></>}</div></dialog>
       <dialog ref={supportDialog} className="support-dialog" aria-labelledby="support-title" onClick={(event) => { if (event.target === event.currentTarget) supportDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><h2 id="support-title">Let’s find your fit.</h2><button className="icon-button" aria-label="Close support" onClick={() => supportDialog.current.close()}><FiX /></button></div><p>Have your vehicle’s make, model, year, and engine details handy. Our vehicle finder is a good place to start.</p><p className="cart-notice">Direct customer support will be available when the store launches.</p><button className="button button-orange" onClick={() => { supportDialog.current.close(); document.getElementById('finder').scrollIntoView({ behavior: 'smooth' }) }}>Open vehicle finder <FiArrowRight /></button></div></dialog>
     </>
   )

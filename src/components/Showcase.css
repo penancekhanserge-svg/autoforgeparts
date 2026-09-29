@@ -58,3 +58,5 @@
 @keyframes sample-slide-right { from { transform:translateX(-50%); } to { transform:translateX(0); } }
 @media(max-width:650px) { .sample-showcase .showcase-heading { align-items:flex-start; flex-direction:column; }.sample-view-all { align-self:flex-end; }.sample-row-group .sample-product-card { width:220px; } }
 @media(prefers-reduced-motion:reduce) { .sample-row-track { animation:none; }.sample-row-window { overflow-x:auto; }.sample-row-group[aria-hidden='true'] { display:none; } }
+
+.sample-product-card > button.sample-product-art { width:100%; cursor:zoom-in; }

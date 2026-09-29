@@ -1,4 +1,14 @@
 import { create } from 'zustand'
-let initial=[]
-try { const stored=JSON.parse(localStorage.getItem('autoforge-reviews')||'[]');if(Array.isArray(stored))initial=stored } catch { /* No saved reviews. */ }
-export const useReviews=create((set,get)=>({reviews:initial,saveReview:review=>{const item={...review,id:review.id||crypto.randomUUID(),name:review.name.trim(),title:review.title.trim(),quote:review.quote.trim(),rating:Number(review.rating)};if(!item.name||!item.title||!item.quote||!Number.isInteger(item.rating)||item.rating<1||item.rating>5)throw new Error('Complete all review fields and choose a rating from 1 to 5.');const next=[item,...get().reviews.filter(r=>r.id!==item.id)];localStorage.setItem('autoforge-reviews',JSON.stringify(next));set({reviews:next})},deleteReview:id=>{const next=get().reviews.filter(r=>r.id!==id);localStorage.setItem('autoforge-reviews',JSON.stringify(next));set({reviews:next})}}))
+import { supabase } from '../lib/supabase'
+const hydrate=row=>({id:row.id,name:row.customer_name,label:row.customer_description,title:row.title,quote:row.review_text,rating:row.rating,published:row.is_published})
+let request=0
+export const useReviews=create((set,get)=>({
+ reviews:[],loading:true,error:'',busy:false,
+ load:async()=>{const version=++request;set({loading:true,error:''});try{const rows=[];for(let offset=0;;offset+=500){const {data,error}=await supabase.from('reviews').select('*').order('created_at',{ascending:false}).order('id').range(offset,offset+499);if(error)throw error;rows.push(...data);if(data.length<500)break}if(version===request)set({reviews:rows.map(hydrate)})}catch(error){if(version===request)set({error:error.message})}finally{if(version===request)set({loading:false})}},
+ saveReview:async review=>{
+  if(get().busy)throw new Error('Please wait for the current request.')
+  set({busy:true})
+  try{const payload={customer_name:review.name.trim(),customer_description:review.label?.trim()||'',title:review.title.trim(),review_text:review.quote.trim(),rating:Number(review.rating),is_published:review.published??true};if(!payload.customer_name||!payload.title||!payload.review_text)throw new Error('Complete all required review fields.');const query=review.id?supabase.from('reviews').update(payload).eq('id',review.id):supabase.from('reviews').insert(payload);const {data,error}=await query.select().single();if(error)throw error;set(state=>({reviews:review.id?state.reviews.map(r=>r.id===data.id?hydrate(data):r):[hydrate(data),...state.reviews]}))}finally{set({busy:false})}
+ },
+ deleteReview:async id=>{if(get().busy)throw new Error('Please wait for the current request.');set({busy:true});try{const {error}=await supabase.from('reviews').delete().eq('id',id).select('id').single();if(error)throw error;set(state=>({reviews:state.reviews.filter(r=>r.id!==id)}))}finally{set({busy:false})}}
+}))

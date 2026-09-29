@@ -1,0 +1,23 @@
+
+.product-zoom-dialog { width:min(1180px,calc(100% - 24px)); max-height:94dvh; overflow:auto; padding:22px; border:1px solid #dce4d4; border-radius:22px; background:#fffef8; color:#294731; }
+.product-zoom-dialog::backdrop { background:#10291dd1; backdrop-filter:blur(5px); }
+.product-zoom-dialog header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; }
+.product-zoom-dialog h2 { font-size:22px; overflow-wrap:anywhere; }
+.product-zoom-dialog header button { min-width:44px; min-height:44px; display:grid; place-items:center; border-radius:50%; background:#edf2e5; }
+.rollover-layout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; align-items:start; }
+.rollover-original,.rollover-enlarged { width:100%; position:relative; overflow:hidden; border-radius:16px; background:#f3f4ef; }
+.rollover-original { touch-action:none; cursor:crosshair; }
+.rollover-original > img { display:block; width:100%; height:100%; pointer-events:none; user-select:none; }
+.rollover-lens { position:absolute; border:1px solid #b77741; background:#ffffff35; box-shadow:0 0 0 1px #ffffff55 inset; opacity:0; pointer-events:none; }
+.rollover-lens.is-active { opacity:1; }
+.rollover-enlarged { border:1px solid #b77741; }
+.rollover-enlarged > img { position:absolute; max-width:none; object-fit:fill; pointer-events:none; user-select:none; }
+.rollover-scale { position:absolute; right:12px; bottom:12px; border-radius:20px; padding:5px 10px; background:#fffef4e8; font-size:12px; }
+.rollover-help { display:flex; align-items:center; gap:8px; margin:12px 0; font-size:14px; line-height:1.6; }
+.rollover-thumbnails { display:flex; gap:10px; margin-top:12px; }
+.rollover-thumbnails button { width:64px; height:64px; border:2px solid transparent; border-radius:10px; overflow:hidden; }
+.rollover-thumbnails button[aria-pressed=true] { border-color:#b77741; }
+.rollover-thumbnails img { width:100%; height:100%; object-fit:cover; }
+.rollover-fallback { max-width:500px; margin:auto; }
+.product-zoom-dialog :focus-visible { outline:2px solid #a87850; outline-offset:3px; }
+@media(max-width:650px) { .product-zoom-dialog { padding:16px; }.rollover-layout { grid-template-columns:1fr; gap:12px; }.rollover-original,.rollover-enlarged { max-width:360px; margin:auto; }.rollover-help { font-size:12px; } }

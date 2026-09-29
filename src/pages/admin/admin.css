@@ -156,3 +156,33 @@
 .adm-app .adm-table-product > img,
 .adm-editor .adm-current-image,
 .adm-app .adm-media-grid img { object-fit:cover; border-radius:18px; clip-path:inset(0 round 18px); }
+
+.adm-reviews-page { display:grid; gap:24px; min-width:0; }
+.adm-review-summary { display:flex; align-items:center; gap:20px; padding:26px; border:1px solid #d9e6d8; border-radius:20px; background:linear-gradient(125deg,#fffef9,#edf5e9); box-shadow:0 8px 24px #24432a08; }
+.adm-review-summary-icon { width:62px; height:62px; display:grid; place-items:center; background:#284e39; color:#eed3a7; font-size:28px; border-radius:18px; }
+.adm-review-summary > div > span { font-size:12px; color:#718368; }
+.adm-review-summary strong { display:block; font-size:42px; line-height:1.2; color:#244631; }
+.adm-review-summary p { margin-top:4px; font-size:15px; }
+.adm-review-summary > button { margin-left:auto; }
+.adm-reviews-table { min-width:700px; }
+.adm-reviews-table td { vertical-align:top; }
+.adm-review-customer { display:flex; gap:12px; align-items:center; }
+.adm-review-customer > span { display:grid; place-items:center; width:40px; height:40px; flex-shrink:0; border-radius:50%; background:#edf1e4; color:#8c6a3d; font-size:18px; }
+.adm-review-customer div { white-space:normal; overflow-wrap:anywhere; max-width:180px; }
+.adm-review-customer small { display:block; margin-top:5px; color:#77876d; }
+.adm-reviews-table .adm-review-copy { white-space:normal; min-width:210px; max-width:520px; overflow-wrap:anywhere; }
+.adm-review-copy p { margin-top:8px; line-height:1.7; color:#76836d; white-space:pre-wrap; }
+.adm-review-rating { display:inline-flex; gap:6px; align-items:center; background:#fbf0dc; color:#9c712c; border-radius:20px; padding:7px 10px; }
+.adm-review-actions { display:flex; gap:8px; }
+.adm-review-actions button { display:inline-flex; align-items:center; gap:7px; }
+.adm-review-actions button:last-child { color:#a5503a; }
+.adm-reviews-table tbody tr:hover { background:#f7faf3; }
+.adm-review-editor { width:min(620px,calc(100% - 24px)); max-height:90dvh; overflow:auto; padding:0; border:1px solid #dce4d3; border-radius:22px; background:#fffef8; color:#294731; }
+.adm-review-editor::backdrop { background:#10271d99; backdrop-filter:blur(4px); }
+.adm-review-editor header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.adm-review-editor .adm-account-card label { font-size:15px; }
+.adm-review-editor select { display:block; margin-top:8px; width:100%; }
+.adm-review-editor footer { display:flex; gap:12px; justify-content:flex-end; margin-top:24px; }
+@media(max-width:600px) { .adm-review-summary { flex-wrap:wrap; padding:20px; }.adm-review-summary > button { width:100%; margin-left:0; }.adm-review-editor input,.adm-review-editor select,.adm-review-editor textarea { font-size:16px; } }
+
+.adm-sidebar-credit { margin-top:22px; padding:16px 0 3px; border-top:1px solid #ffffff14; text-align:center; }.adm-sidebar-credit > span { display:block; font-size:8px; line-height:1.8; letter-spacing:1px; color:#dce6d6; }.adm-sidebar-credit strong { color:#f0af77; font-weight:700; }.adm-sidebar-credit small { display:block; margin-top:6px; font-size:9px; line-height:1.6; color:#afc3af; }
