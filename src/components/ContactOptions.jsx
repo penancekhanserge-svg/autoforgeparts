@@ -1,12 +1,12 @@
 import { FaWhatsapp } from 'react-icons/fa'
 import './ContactOptions.css'
 
-const whatsapp = 'https://wa.me/237678156882?text=' + encodeURIComponent('Hello AutoForge! I need help finding the right parts for my vehicle. Could you please assist me?')
+const whatsapp = 'https://wa.me/16025296403?text=' + encodeURIComponent('Hello AutoForge! I need help finding the right parts for my vehicle. Could you please assist me?')
 const message = 'Hello, I would like more information about your services.'
 
 export default function ContactOptions() {
  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
- const sms = 'sms:+237678156882' + (ios ? '&' : '?') + 'body=' + encodeURIComponent(message)
+ const sms = 'sms:+16025296403' + (ios ? '&' : '?') + 'body=' + encodeURIComponent(message)
  return <div className="whatsapp-contact contact-direct">
   <div className="contact-direct-icons">
    <a className="sms-orb" href={sms} aria-label="Contact us by SMS" title="Send an SMS"><span className="sms-bubble" aria-hidden="true"><i /><i /><i /></span></a>

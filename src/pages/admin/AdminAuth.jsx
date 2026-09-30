@@ -38,7 +38,7 @@ export default function AdminAuth({ recovery=false }) {
  <button disabled={busy} type="submit" className="merchant-auth-submit">{busy?'Please wait...':recovery?'Send reset link':'Sign in to dashboard'} <FiArrowUpRight /></button><p className="merchant-auth-demo">{recovery?'Use the email address associated with your account.':'Access is restricted to authorized administrators.'}</p>
  {error&&<NotificationMessage message={error} />}
  </form>}
- <div className="merchant-auth-footer">{recovery?<Link to="/admin/login" state={{ adminLoginEntry: true }}><FiArrowLeft /> Back to login</Link>:<><span>Need a hand?</span><a href="https://wa.me/237678156882?text=Hello%20AutoForge!%20I%20need%20help%20with%20the%20admin%20workspace." target="_blank" rel="noopener noreferrer">Contact support <FiArrowUpRight /></a></>}</div>
+ <div className="merchant-auth-footer">{recovery?<Link to="/admin/login" state={{ adminLoginEntry: true }}><FiArrowLeft /> Back to login</Link>:<><span>Need a hand?</span><a href="https://wa.me/16025296403?text=Hello%20AutoForge!%20I%20need%20help%20with%20the%20admin%20workspace." target="_blank" rel="noopener noreferrer">Contact support <FiArrowUpRight /></a></>}</div>
  </section></div><footer className="merchant-auth-bottom"><span>AutoForge Parts ? A better drive starts here.</span><Link to="/privacy">Privacy</Link></footer>
  </main>
 }

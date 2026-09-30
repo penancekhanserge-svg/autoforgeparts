@@ -5,7 +5,7 @@ import './ServiceStrip.css'
 const services = [
   { icon: FiTruck, title: 'Plan your next delivery', description: 'Ask about delivery options for your location.', to: '/about#contact' },
   { icon: FiRefreshCw, title: 'Know your options', description: 'Discuss return terms before placing an order.', to: '/about#contact' },
-  { icon: FiMessageCircle, title: 'A conversation away', description: 'Get help choosing your next part on WhatsApp.', to: 'https://wa.me/237678156882?text=Hello%20AutoForge!%20I%20need%20help%20choosing%20a%20part.' },
+  { icon: FiMessageCircle, title: 'A conversation away', description: 'Get help choosing your next part on WhatsApp.', to: 'https://wa.me/16025296403?text=Hello%20AutoForge!%20I%20need%20help%20choosing%20a%20part.' },
   { icon: FiEye, title: 'Your details, explained', description: 'See how we handle the information you share.', to: '/privacy' },
 ]
 

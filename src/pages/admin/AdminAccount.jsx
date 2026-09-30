@@ -46,7 +46,7 @@ export function AdminSupport(){
  function report(event){
   event.preventDefault()
   const text='AutoForge system issue\n\nSubject: '+subject.trim()+'\n\n'+details.trim()
-  if(event.nativeEvent.submitter?.value==='whatsapp')window.open('https://wa.me/237651508182?text='+encodeURIComponent(text),'_blank','noopener,noreferrer')
+  if(event.nativeEvent.submitter?.value==='whatsapp')window.open('https://wa.me/16025296403?text='+encodeURIComponent(text),'_blank','noopener,noreferrer')
   else window.location.href='mailto:khanpenancesearch@gmail.com?subject='+encodeURIComponent('AutoForge: '+subject.trim())+'&body='+encodeURIComponent(text)
  }
  return <div className="adm-account-grid">

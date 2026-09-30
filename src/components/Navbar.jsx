@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiHeadphones, FiMenu, FiTool, FiX, FiZap } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiChevronDown, FiGrid, FiMenu, FiTool, FiX, FiZap } from 'react-icons/fi'
 import { Link, useLocation } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import { useCollections } from '../store/collections'
 import './Navbar.css'
 
-export default function Navbar({ categories, onCategory, onBrowse, onSupport, onCart, count, fitment }) {
+export default function Navbar({ categories, onCategory, onBrowse, onCart, count, fitment }) {
   const isHome = useLocation().pathname === '/'
   const [menuOpen, setMenuOpen] = useState(false)
   const {loading:collectionsLoading,error:collectionsError,loadCollections}=useCollections()
@@ -72,8 +72,6 @@ export default function Navbar({ categories, onCategory, onBrowse, onSupport, on
           <span className="premium-wordmark">AUTO<span>FORGE</span><small className="premium-desktop-tagline">PRECISION PARTS. LIMITLESS POSSIBILITIES.</small><small className="premium-mobile-tagline">PARTS FOR EVERY JOURNEY</small></span>
         </Link>
         <div className="premium-actions">
-          <button className="premium-support" onClick={() => { closeMenus(); onSupport() }}><span className="premium-action-icon"><FiHeadphones /></span><span><small>A LITTLE EXPERT GUIDANCE</small><strong>Let’s talk parts <FiArrowUpRight /></strong></span></button>
-          <span className="premium-divider" />
           <button className="premium-cart" onClick={() => { closeMenus(); onCart() }} aria-label={'Open cart, ' + count + ' items'}><span className="premium-cart-icon"><FaShoppingCart aria-hidden="true" /><b>{count}</b></span><span>Your cart<small>{count ? count + ' item' + (count === 1 ? '' : 's') + ' in cart' : 'Ready for an upgrade'}</small></span></button>
           <button ref={mobileTrigger} className="premium-menu-toggle" aria-label="Toggle navigation" aria-controls="premium-navigation" aria-expanded={menuOpen} onClick={() => { setMenuOpen(!menuOpen); setCategoriesOpen(false) }}>{menuOpen ? <FiX /> : <FiMenu />}</button>
         </div>
@@ -85,7 +83,6 @@ export default function Navbar({ categories, onCategory, onBrowse, onSupport, on
             <Link to="/" className={isHome ? "premium-home-link" : ""} onClick={closeMenus}>Home{isHome && <span />}</Link>
             <a href="/shop#parts" onClick={(event) => { event.preventDefault(); closeMenus(); onBrowse() }}>Shop all parts</a>
             <Link to="/about" onClick={closeMenus}>About us <FiArrowUpRight /></Link>
-            <button className="premium-mobile-support" onClick={() => { closeMenus(); onSupport() }}><FiHeadphones /> Help & support</button>
           </nav>
           <a className="premium-vehicle" href="/shop#finder" onClick={closeMenus}><span className="premium-vehicle-icon"><FiTool /></span><span>{fitment ? fitment.year + ' ' + fitment.make + ' ' + fitment.model : 'Add your vehicle'}<small>{fitment ? 'Change vehicle' : 'Find your perfect fit'}</small></span><FiArrowRight /></a>
         </div>

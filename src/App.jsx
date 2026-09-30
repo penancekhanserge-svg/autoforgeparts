@@ -7,7 +7,6 @@ import { useVehicleOptions } from './hooks/useVehicleOptions'
 import NotificationMessage from './components/NotificationMessage'
 import OrderConfirmation from './components/OrderConfirmation'
 import ShopByVehicle from './components/ShopByVehicle'
-import ContactOptions from './components/ContactOptions'
 import { salePrice } from './lib/pricing'
 import { useEffect, useRef, useState } from 'react'
 import { FiArrowRight, FiArrowUpRight, FiArrowDownRight, FiHeadphones, FiMinus, FiPlus, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
@@ -61,7 +60,6 @@ function Storefront() {
   const [selectedQuantity, setSelectedQuantity] = useState('1')
   const quantityDialog = useRef(null)
   const cartDialog = useRef(null)
-  const supportDialog = useRef(null)
   const { items, add, change, remove } = useCart()
   useEffect(() => {
     if(!catalogReady || catalogError)return
@@ -105,12 +103,10 @@ function Storefront() {
     <>
       <ScrollReveal />
       {orderConfirmation && <OrderConfirmation order={orderConfirmation} onClose={() => { setOrderConfirmation(null); cartDialog.current.showModal() }} />}
-      <ContactOptions />
       <Navbar
         categories={categories}
         onCategory={browseCategory}
         onBrowse={() => { clearFilters(); scrollToProducts() }}
-        onSupport={() => supportDialog.current.showModal()}
         onCart={() => cartDialog.current.showModal()}
         count={count}
         fitment={fitment}
@@ -157,7 +153,7 @@ function Storefront() {
 
         <section className="container story-section" id="about">
           <div className="story-panel"><span className="eyebrow light">MORE THAN A PART. A POSSIBILITY.</span><h2>Keep the good<br />miles coming.</h2><p>A morning commute. A weekend escape. That project in the garage. Whatever drives you, we’re building a better way to find your next part.</p><a className="button button-orange" href="#finder">Find your fit <FiArrowUpRight /></a><span className="story-outline" aria-hidden="true">AF</span></div>
-          <div className="help-panel"><span className="help-icon"><FiHeadphones /></span><span className="eyebrow">A HUMAN TOUCH</span><h2>Not sure where<br />to start?</h2><p>You don’t have to know every part number. Start with your vehicle and take it from there.</p><button className="text-link" onClick={() => supportDialog.current.showModal()}>Let’s talk parts <FiArrowUpRight /></button><div className="help-bottom"><FiTool /><span>Good advice starts with the right questions.</span></div></div>
+          <div className="help-panel"><span className="help-icon"><FiHeadphones /></span><span className="eyebrow">A HUMAN TOUCH</span><h2>Not sure where<br />to start?</h2><p>You don’t have to know every part number. Start with your vehicle and take it from there.</p><button className="text-link" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>Let’s talk parts <FiArrowUpRight /></button><div className="help-bottom"><FiTool /><span>Good advice starts with the right questions.</span></div></div>
         </section>
         <ContactForm />
         <div className="container closing-line"><FiTruck /><p>For the everyday driver. The weekend explorer. The hands-on enthusiast.</p><span>MADE TO KEEP YOU MOVING <FiArrowUpRight /></span></div>
@@ -172,7 +168,7 @@ function Storefront() {
           <div className="forge-footer-grid">
             <div className="forge-footer-brand"><Link to="/" aria-label="AutoForge home">AUTO<span>FORGE</span><small>PARTS FOR EVERY JOURNEY</small></Link><p>For the everyday driver, the weekend explorer, and the project waiting in your garage.</p><span className="forge-footer-signature"><FiTool /> Built around your drive.</span></div>
             <nav aria-label="Footer shop navigation"><h3>Find your next part</h3><button onClick={() => { clearFilters(); scrollToProducts() }}>Shop all parts <FiArrowUpRight /></button><a href="#finder">Find by vehicle</a><button onClick={() => browseCategory('Brakes')}>Brakes & maintenance</button><button onClick={() => browseCategory('Lighting')}>Lighting & upgrades</button></nav>
-            <nav aria-label="Footer help navigation"><h3>A little guidance</h3><Link to="/privacy">Privacy</Link><Link to="/admin/login" state={{ adminLoginEntry: true }}>Admin login</Link><button onClick={() => supportDialog.current.showModal()}>Help & support <FiArrowUpRight /></button><button onClick={() => cartDialog.current.showModal()}>Your cart ({count})</button></nav>
+            <nav aria-label="Footer help navigation"><h3>A little guidance</h3><Link to="/privacy">Privacy</Link><Link to="/admin/login" state={{ adminLoginEntry: true }}>Admin login</Link><button onClick={() => cartDialog.current.showModal()}>Your cart ({count})</button></nav>
             <div className="forge-footer-help"><FiHeadphones aria-hidden="true" /><h3>Good advice.<br />A better starting point.</h3><p>Start with your make, model, and year. Let's find your fit.</p><a href="#finder">Meet your next mile <FiArrowRight /></a></div>
           </div>
           <div className="forge-footer-bottom"><span>&copy; {new Date().getFullYear()} All rights reserved.</span><a href="#">Back to top &uarr;</a></div>
@@ -191,7 +187,6 @@ function Storefront() {
       </dialog>
 
       <dialog ref={cartDialog} className="cart-dialog" aria-labelledby="cart-title" onClick={(event) => { if (event.target === event.currentTarget) cartDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><div><span className="eyebrow">YOUR NEXT UPGRADE</span><h2 id="cart-title">Your next upgrade <span>({count})</span></h2><p className="cart-heading-copy">Good parts. Great journeys ahead.</p></div><button className="icon-button" aria-label="Close cart" onClick={() => cartDialog.current.close()}><FiX /></button></div>{!cartItems.length ? <div className="empty-cart"><span className="empty-cart-emblem"><FaShoppingCart aria-hidden="true" /></span><h3>A little empty. Full of possibility.</h3><p>Find something for your next journey.</p><button className="button button-dark empty-cart-explore" onClick={() => { cartDialog.current.close(); scrollToProducts() }}>Explore parts <FiArrowRight /></button></div> : <><div className="cart-items">{cartItems.map(({ product, quantity }) => <div className="cart-item" key={product.id}><ProductVisual product={product} /><div><span className="cart-item-brand">{product.brand}</span><h3>{product.name}</h3><span className="cart-item-vehicle">{product.fit[0]}</span><p>{money(salePrice(product))} <small>USD / unit</small></p><div className="quantity-control"><button aria-label={'Decrease quantity of ' + product.name} onClick={() => change(product.id, -1)}><FiMinus /></button><span>{quantity}</span><button aria-label={'Increase quantity of ' + product.name} disabled={quantity >= product.stock} onClick={() => change(product.id, 1)}><FiPlus /></button></div></div><button className="icon-button remove-button" aria-label={'Remove ' + product.name} onClick={() => remove(product.id)}><FiTrash2 /></button></div>)}</div><div className="cart-total"><span>Subtotal<small>{count} item{count === 1 ? '' : 's'} in your collection</small></span><strong>{money(total)}<small>USD</small></strong></div><button disabled={placingOrder||!catalogReady||!!catalogError} className="button button-dark cart-continue" onClick={placeOrder}>{placingOrder?<><span className="adm-processing-spinner" /> Placing order...</>:<>Place order <FiArrowRight /></>}</button></>}</div></dialog>
-      <dialog ref={supportDialog} className="support-dialog" aria-labelledby="support-title" onClick={(event) => { if (event.target === event.currentTarget) supportDialog.current.close() }}><div className="dialog-content"><div className="dialog-heading"><h2 id="support-title">Let’s find your fit.</h2><button className="icon-button" aria-label="Close support" onClick={() => supportDialog.current.close()}><FiX /></button></div><p>Have your vehicle’s make, model, year, and engine details handy. Our vehicle finder is a good place to start.</p><p className="cart-notice">Direct customer support will be available when the store launches.</p><button className="button button-orange" onClick={() => { supportDialog.current.close(); document.getElementById('finder').scrollIntoView({ behavior: 'smooth' }) }}>Open vehicle finder <FiArrowRight /></button></div></dialog>
     </>
   )
 }
