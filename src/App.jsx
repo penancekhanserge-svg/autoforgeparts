@@ -7,6 +7,7 @@ import { useVehicleOptions } from './hooks/useVehicleOptions'
 import NotificationMessage from './components/NotificationMessage'
 import OrderConfirmation from './components/OrderConfirmation'
 import ShopByVehicle from './components/ShopByVehicle'
+import ContactOptions from './components/ContactOptions'
 import { salePrice } from './lib/pricing'
 import { useEffect, useRef, useState } from 'react'
 import { FiArrowRight, FiArrowUpRight, FiArrowDownRight, FiHeadphones, FiMinus, FiPlus, FiTool, FiTrash2, FiTruck, FiX } from 'react-icons/fi'
@@ -102,6 +103,7 @@ function Storefront() {
   return (
     <>
       <ScrollReveal />
+      <ContactOptions />
       {orderConfirmation && <OrderConfirmation order={orderConfirmation} onClose={() => { setOrderConfirmation(null); cartDialog.current.showModal() }} />}
       <Navbar
         categories={categories}
