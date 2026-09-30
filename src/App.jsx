@@ -30,6 +30,7 @@ import InfoPage from './components/InfoPage'
 import ProductDetail from './components/ProductDetail'
 import Testimonials from './components/Testimonials'
 import ScrollReveal from './components/ScrollReveal'
+import SiteSeo from './components/Seo'
 import { vehicleYears, categorySlug, money } from './data/products'
 import { useCart } from './store/cart'
 
@@ -195,7 +196,7 @@ function Storefront() {
 export default function App() {
   const loadCatalog = useCatalog(state => state.load)
   useEffect(() => { loadCatalog() }, [loadCatalog])
-  return <Routes><Route path="/admin/login" element={<AdminLoginEntry />} /><Route path="/login" element={<Navigate to="/" replace />} /><Route path="/admin/forgot-password" element={<AdminAuth key="recovery" recovery />} /><Route path="/admin/reset-password" element={<ResetPassword />} /><Route path="/admin/*" element={<RequireAdmin><Admin /></RequireAdmin>} /><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes>
+  return <><SiteSeo /><Routes><Route path="/admin/login" element={<AdminLoginEntry />} /><Route path="/login" element={<Navigate to="/" replace />} /><Route path="/admin/forgot-password" element={<AdminAuth key="recovery" recovery />} /><Route path="/admin/reset-password" element={<ResetPassword />} /><Route path="/admin/*" element={<RequireAdmin><Admin /></RequireAdmin>} /><Route path="/" element={<Storefront />} /><Route path="/about" element={<Storefront />} /><Route path="/privacy" element={<Storefront />} /><Route path="/shop" element={<Storefront />} /><Route path="/shop/:department" element={<Storefront />} /><Route path="/product/:productId" element={<Storefront />} /><Route path="*" element={<main className="not-found"><h1>Looks like a wrong turn.</h1><Link className="button button-orange" to="/">Back to the store <FiArrowRight /></Link></main>} /></Routes></>
 }
 
 function AdminLoginEntry() {
