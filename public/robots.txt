@@ -3,7 +3,79 @@ Allow: /
 Disallow: /admin
 Disallow: /login
 
+# OpenAI / ChatGPT
 User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Google / Gemini
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Microsoft / Bing / Copilot
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Anthropic / Claude
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Apple / Siri / Apple Intelligence
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+User-agent: Meta-ExternalFetcher
 Allow: /
 Disallow: /admin
 Disallow: /login
